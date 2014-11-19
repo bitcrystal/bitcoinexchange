@@ -14,35 +14,38 @@ $coins_count=count($coins_names);
 
 $coins = array();
 
-$coins["Bitcoin"] = array();
-$coins["Bitcoin"]["enabled"]=false;
-$coins["Bitcoin"]["daemon"]=false;
-$coins["Bitcoin"]["rpcsettings"]=array();
+$coins[$coins_names[0]] = array();
+$coins[$coins_names[0]]["enabled"]=false;
+$coins[$coins_names[0]]["daemon"]=false;
+$coins[$coins_names[0]]["rpcsettings"]=array();
+$coins[$coins_names[0]]["fee"]=0.01;
 
-$coins["Bitcrystal"] = array();
-$coins["Bitcrystal"]["enabled"]=false;
-$coins["Bitcrystal"]["daemon"]=false;
-$coins["Bitcrystal"]["rpcsettings"]=array();
+$coins[$coins_names[1]] = array();
+$coins[$coins_names[1]]["enabled"]=false;
+$coins[$coins_names[1]]["daemon"]=false;
+$coins[$coins_names[1]]["rpcsettings"]=array();
+$coins[$coins_names[1]]["fee"]=0.01;
 
-$coins["Bitcrystalx"] = array();
-$coins["Bitcrystalx"]["enabled"]=false;
-$coins["Bitcrystalx"]["daemon"]=false;
-$coins["Bitcrystalx"]["rpcsettings"]=array();
+$coins[$coins_names[2]] = array();
+$coins[$coins_names[2]]["enabled"]=false;
+$coins[$coins_names[2]]["daemon"]=false;
+$coins[$coins_names[2]]["rpcsettings"]=array();
+$coins[$coins_names[2]]["fee"]=0.01;
 
-$coins["Bitcoin"]["rpcsettings"]["user"]="bitcoinrpc";
-$coins["Bitcoin"]["rpcsettings"]["pass"]="fickdiehenneextended";
-$coins["Bitcoin"]["rpcsettings"]["host"]="127.0.0.1";
-$coins["Bitcoin"]["rpcsettings"]["port"]="8332";
+$coins[$coins_names[0]]["rpcsettings"]["user"]="bitcoinrpc";
+$coins[$coins_names[0]]["rpcsettings"]["pass"]="fickdiehenneextended";
+$coins[$coins_names[0]]["rpcsettings"]["host"]="127.0.0.1";
+$coins[$coins_names[0]]["rpcsettings"]["port"]="8332";
 
-$coins["Bitcrystal"]["rpcsettings"]["user"]="WernerChainer";
-$coins["Bitcrystal"]["rpcsettings"]["pass"]="fickdiehenne";
-$coins["Bitcrystal"]["rpcsettings"]["host"]="127.0.0.1";
-$coins["Bitcrystal"]["rpcsettings"]["port"]="19332";
+$coins[$coins_names[1]]["rpcsettings"]["user"]="WernerChainer";
+$coins[$coins_names[1]]["rpcsettings"]["pass"]="fickdiehenne";
+$coins[$coins_names[1]]["rpcsettings"]["host"]="127.0.0.1";
+$coins[$coins_names[1]]["rpcsettings"]["port"]="19332";
 
-$coins["Bitcrystalx"]["rpcsettings"]["user"]="WernerChainer";
-$coins["Bitcrystalx"]["rpcsettings"]["pass"]="fickdiehenneextended";
-$coins["Bitcrystalx"]["rpcsettings"]["host"]="127.0.0.1";
-$coins["Bitcrystalx"]["rpcsettings"]["port"]="19333";
+$coins[$coins_names[2]]["rpcsettings"]["user"]="WernerChainer";
+$coins[$coins_names[2]]["rpcsettings"]["pass"]="fickdiehenneextended";
+$coins[$coins_names[2]]["rpcsettings"]["host"]="127.0.0.1";
+$coins[$coins_names[2]]["rpcsettings"]["port"]="19333";
 
 
 
