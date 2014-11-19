@@ -106,7 +106,7 @@ if($count_transactions != 0)
             </table>
          </td>
       </tr><tr>
-         <td colspan="2" align="right" valign="top" style="font-weight: bold; padding: 5px;" nowrap>Deposit/Withdraw (<a href="fundsbtc.php">BTC</a>/<a href="fundsbtcry.php">BTCRY</a>/<a href="fundsbtcryx.php">BTCRYX</a>)</td>
+         <?php echo'<td colspan="2" align="right" valign="top" style="font-weight: bold; padding: 5px;" nowrap>Deposit/Withdraw (<a href="fundsbtc.php">'.$coins_names_prefix[0].'</a>/<a href="fundsbtcry.php">'.$coins_names_prefix[1].'</a>/<a href="fundsbtcryx.php">'.$coins_names_prefix[2].'</a>)</td>'; ?>
       </tr>
    </table>
    </div>

@@ -1,5 +1,6 @@
 <?php
 error_reporting(0);
+require_once('coins.php');
 if(!$user_session) {
    $do = "nothing";
 } else {
@@ -12,31 +13,31 @@ if(!$user_session) {
          if(5>=$Bitcoind_List_Transaction['confirmations']) {
             $TXSSS_DISP = "1";
             $TXSSS .= '<tr>
-                          <td align="right" style="'.$bold_txxs.'padding-left: 5px;" nowrap>'.abs($Bitcoind_List_Transaction['amount']).' BTC / '.$Bitcoind_List_Transaction['confirmations'].' confs</span></td>
+                          <td align="right" style="'.$bold_txxs.'padding-left: 5px;" nowrap>'.abs($Bitcoind_List_Transaction['amount']).' '.$coins_names_prefix[0].' / '.$Bitcoind_List_Transaction['confirmations'].' confs</span></td>
                        </tr>';
          }
       }
    }
-   $Bytecoind_List_Transactions = $Bytecoind->listtransactions($wallet_id,10);
-   foreach($Bytecoind_List_Transactions as $Bytecoind_List_Transaction) {
+   $Bitcrystald_List_Transactions = $Bitcrystald->listtransactions($wallet_id,10);
+   foreach($Bitcrystald_List_Transactions as $Bitcrystald_List_Transaction) {
       if($bold_txxs=="") { $bold_txxs = "color: #666666; "; } else { $bold_txxs = ""; }
-      if($Bytecoind_List_Transaction['category']=="receive") {
-         if(5>=$Bytecoind_List_Transaction['confirmations']) {
+      if($Bitcrystald_List_Transaction['category']=="receive") {
+         if(5>=$Bitcrystald_List_Transaction['confirmations']) {
             $TXSSS_DISP = "1";
             $TXSSS .= '<tr>
-                          <td align="right" style="'.$bold_txxs.'padding-left: 5px;" nowrap>'.abs($Bytecoind_List_Transaction['amount']).'</span> BTCRYX / '.$Bytecoind_List_Transaction['confirmations'].' confs</td>
+                          <td align="right" style="'.$bold_txxs.'padding-left: 5px;" nowrap>'.abs($Bitcrystald_List_Transaction['amount']).'</span> '.$coins_names_prefix[1].' / '.$Bitcrystald_List_Transaction['confirmations'].' confs</td>
                        </tr>';
          }
       }
    }
-   $Chncoind_List_Transactions = $Chncoind->listtransactions($wallet_id,10);
-   foreach($Chncoind_List_Transactions as $Chncoind_List_Transaction) {
+   $Bitcrystalxd_List_Transactions = $Bitcrystalxd->listtransactions($wallet_id,10);
+   foreach($Bitcrystalxd_List_Transactions as $Bitcrystalxd_List_Transaction) {
       if($bold_txxs=="") { $bold_txxs = "color: #666666; "; } else { $bold_txxs = ""; }
-      if($Chncoind_List_Transaction['category']=="receive") {
-         if(5>=$Chncoind_List_Transaction['confirmations']) {
+      if($Bitcrystalxd_List_Transaction['category']=="receive") {
+         if(5>=$Bitcrystalxd_List_Transaction['confirmations']) {
             $TXSSS_DISP = "1";
             $TXSSS .= '<tr>
-                          <td align="right" style="'.$bold_txxs.'padding-left: 5px;" nowrap>'.abs($Chncoind_List_Transaction['amount']).' BTCRY / '.$Chncoind_List_Transaction['confirmations'].' confs</td>
+                          <td align="right" style="'.$bold_txxs.'padding-left: 5px;" nowrap>'.abs($Bitcrystalxd_List_Transaction['amount']).' '.$coins_names_prefix[2].' / '.$Bitcrystalxd_List_Transaction['confirmations'].' confs</td>
                        </tr>';
          }
       }
