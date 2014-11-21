@@ -8,7 +8,7 @@ if($Logged_In!==7) {
 }
 $coin_selecter = security($_GET['c']);
 if($coin_selecter) {
-   if($coin_selecter==$my_coins->coins_names_prefix[1]) { $_SESSION['trade_coin'] = $my_coins->coins_names_prefix[1]; }
+   if($coin_selecter==$my_coins->coins_names_prefix[0]) { $_SESSION['trade_coin'] = $my_coins->coins_names_prefix[0]; }
    if($coin_selecter==$my_coins->coins_names_prefix[2]) { $_SESSION['trade_coin'] = $my_coins->coins_names_prefix[2]; }
    header("Location: home.php");
 }
@@ -66,7 +66,6 @@ if($cancel_order) {
             $sql = "UPDATE buy_orderbook SET processed='3' WHERE id='$CURR_Selling_ID' and username='$user_session'";
             $result = mysql_query($sql);
             if($result) {
-               $result = "";
                $result = plusfunds($user_session,$BTC,$CURR_Selling_Amount);
                if($result) {
                   $Trade_Message = 'The order has been canceled.';
@@ -189,8 +188,12 @@ if($PST_Order_Action=="sell") {
                   if(!mysql_query("INSERT INTO sell_orderbook (id, date, ip, username, action, want, initial_amount, amount, rate, processed) VALUES ('','$date','$ip','$user_session','sell','$BTC','$PST_Order_Amount','$PST_Order_Amount','$PST_Order_Rate','1')")) {
                      $Trade_Message = "System error.";
                   } else {
-                     $result = minusfunds($user_session,$BTCRYX,$PST_Order_Amount);
-                     if($result=="success") {
+                     if($my_coins->sellfee==true)
+					 {
+					 $result = minusfunds(
+					 $result = minusfunds($user_session,$BTCRYX,$PST_Order_Amount);
+                     
+					 if($result=="success") {
                         $Trade_Message = "Sell order has been made, but is waiting a Buyer.";
                         header("Location: home.php");
                      } else {
@@ -403,7 +406,7 @@ if($PST_Order_Action=="sell") {
                   <td align="left" nowrap><?php echo $BTC; ?></td>
                </tr><tr>
                   <td align="right" nowrap><b>Fee</b></td>
-                  <td align="right" nowrap><font id="sell-fee"><?php $sfee = (($ssubtotal / 100) / 5); echo satoshitize($sfee); ?></font></td>
+                  <td align="right" nowrap><font id="sell-fee"><?php $sfee = (($bsubtotal / 100) / 5); echo satoshitize($sfee); ?></font></td>
                   <td align="left" nowrap><?php echo $BTC; ?></td>
                </tr><tr>
                   <td colspan="3" style="height: 10px;"></td>

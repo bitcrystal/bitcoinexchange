@@ -1,4 +1,6 @@
 <?php
+require_once('coins.php');
+$GLOBALS['my_coins']=$my_coins;
 function security($value) {
    if(is_array($value)) {
       $value = array_map('security', $value);
@@ -32,15 +34,16 @@ function satoshitrim($satoshitrim) {
 }
 
 function userbalance($function_user,$function_coin) {
-   if($function_coin=="BTC") {
+   $my_coins=$GLOBALS['my_coins'];
+   if($function_coin==$my_coins->coin_names_prefix[0]) {
       $function_query = mysql_query("SELECT coin1 FROM balances WHERE username='$function_user'");
       while($function_row = mysql_fetch_assoc($function_query)) { $function_return = $function_row['coin1']; }
    }
-   if($function_coin=="BTCRYX") {
+   if($function_coin==$my_coins->coin_names_prefix[2]) {
       $function_query = mysql_query("SELECT coin2 FROM balances WHERE username='$function_user'");
       while($function_row = mysql_fetch_assoc($function_query)) { $function_return = $function_row['coin2']; }
    }
-   if($function_coin=="BTCRY") {
+   if($function_coin==$my_coins->coin_names_prefix[1]) {
       $function_query = mysql_query("SELECT coin3 FROM balances WHERE username='$function_user'");
       while($function_row = mysql_fetch_assoc($function_query)) { $function_return = $function_row['coin3']; }
    }
@@ -64,12 +67,13 @@ function sellrate($function_coin) {
 }
 
 function plusfunds($function_user,$function_coin,$function_amount) {
+   $my_coins=$GLOBALS['my_coins'];
    $function_user_balance = userbalance($function_user,$function_coin);
    $function_balance = $function_user_balance + $function_amount;
    $function_balance = satoshitrim(satoshitize($function_balance));
-   if($function_coin=="BTC") { $sql = "UPDATE balances SET coin1='$function_balance' WHERE username='$function_user'"; }
-   if($function_coin=="BTCRYX") { $sql = "UPDATE balances SET coin2='$function_balance' WHERE username='$function_user'"; }
-   if($function_coin=="BTCRY") { $sql = "UPDATE balances SET coin3='$function_balance' WHERE username='$function_user'"; }
+   if($function_coin==$my_coins->coins_names_prefix[0]) { $sql = "UPDATE balances SET coin1='$function_balance' WHERE username='$function_user'"; }
+   if($function_coin==$my_coins->coins_names_prefix[2]) { $sql = "UPDATE balances SET coin2='$function_balance' WHERE username='$function_user'"; }
+   if($function_coin==$my_coins->coins_names_prefix[1]) { $sql = "UPDATE balances SET coin3='$function_balance' WHERE username='$function_user'"; }
    $result = mysql_query($sql);
    if($result) {
       $function_return = "success";
@@ -80,12 +84,13 @@ function plusfunds($function_user,$function_coin,$function_amount) {
 }
 
 function minusfunds($function_user,$function_coin,$function_amount) {
+   $my_coins=$GLOBALS['my_coins'];
    $function_user_balance = userbalance($function_user,$function_coin);
    $function_balance = $function_user_balance - $function_amount;
    $function_balance = satoshitrim(satoshitize($function_balance));
-   if($function_coin=="BTC") { $sql = "UPDATE balances SET coin1='$function_balance' WHERE username='$function_user'"; }
-   if($function_coin=="BTCRYX") { $sql = "UPDATE balances SET coin2='$function_balance' WHERE username='$function_user'"; }
-   if($function_coin=="BTCRY") { $sql = "UPDATE balances SET coin3='$function_balance' WHERE username='$function_user'"; }
+   if($function_coin==$my_coins->coins_names_prefix[0]) { $sql = "UPDATE balances SET coin1='$function_balance' WHERE username='$function_user'"; }
+   if($function_coin==$my_coins->coins_names_prefix[2]) { $sql = "UPDATE balances SET coin2='$function_balance' WHERE username='$function_user'"; }
+   if($function_coin==$my_coins->coins_names_prefix[1]) { $sql = "UPDATE balances SET coin3='$function_balance' WHERE username='$function_user'"; }
    $result = mysql_query($sql);
    if($result) {
       $function_return = "success";
@@ -93,5 +98,10 @@ function minusfunds($function_user,$function_coin,$function_amount) {
       $function_return = "error";
    }
    return $function_return;
+}
+
+function update_to_feebee($FEEBEE)
+{
+	
 }
 ?>

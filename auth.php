@@ -23,15 +23,15 @@ if(!$coin_selected) {
 }
 
 $trade_coin = $_SESSION['trade_coin'];
-if($trade_coin == $my_coins->coins_names_prefix[1])
+if($trade_coin == $my_coins->coins_names_prefix[0])
 {
-	$my_coins->set_current_from_trade_coin_prefix_and_name($my_coins->coins_names_prefix[2], $my_coins->coins_names[2]);
+	$my_coins->set_current_from_trade_coin_prefix_and_name($my_coins->coins_names_prefix[0], $my_coins->coins_names[0]);
 	$my_coins->set_current_to_trade_coin_prefix_and_name($my_coins->coins_names_prefix[1], $my_coins->coins_names[1]);
 }
 if($trade_coin == $my_coins->coins_names_prefix[2])
 {
-	$my_coins->set_current_from_trade_coin_prefix_and_name($my_coins->coins_names_prefix[0], $my_coins->coins_names[0]);
-	$my_coins->set_current_to_trade_coin_prefix_and_name($my_coins->coins_names_prefix[2], $my_coins->coins_names[2]);
+	$my_coins->set_current_from_trade_coin_prefix_and_name($my_coins->coins_names_prefix[2], $my_coins->coins_names[0]);
+	$my_coins->set_current_to_trade_coin_prefix_and_name($my_coins->coins_names_prefix[1], $my_coins->coins_names[2]);
 }
 $BTC = $my_coins->trade_coins[$trade_coin]["BTC"]; // rate coin
 $BTCRYX = $my_coins->trade_coins[$trade_coin]["BTCRYX"]; // amount coin
@@ -78,15 +78,15 @@ if(!$user_session) {
          $r_system_action = "success";
       }
    }
-   $Bitcoind_Balance = userbalance($user_session,"$my_coins->coins_names_prefix[0]");
-   $Bitcrystald_Balance = userbalance($user_session,"$my_coins->coins_names_prefix[1]");
-   $Bitcrystalxd_Balance = userbalance($user_session,"$my_coins->coins_names_prefix[2]");
+   $Bitcoind_Balance = userbalance($user_session,$my_coins->coins_names_prefix[0]);
+   $Bitcrystald_Balance = userbalance($user_session,$my_coins->coins_names_prefix[1]);
+   $Bitcrystalxd_Balance = userbalance($user_session,$my_coins->coins_names_prefix[2]);
    $Bitcoind_List_Transactions = $Bitcoind->listtransactions($wallet_id,50);
    foreach($Bitcoind_List_Transactions as $Bitcoind_List_Transaction) {
       if($Bitcoind_List_Transaction['category']=="receive") {
          if(6<=$Bitcoind_List_Transaction['confirmations']) {
             $DEPOSIT_tx_type = 'deposit';
-            $DEPOSIT_coin_type = "$my_coins->coins_names_prefix[0]";
+            $DEPOSIT_coin_type = $my_coins->coins_names_prefix[0];
             $DEPOSIT_date = date('n/j/y h:i a',$Bitcoind_List_Transaction['time']);
             $DEPOSIT_address = $Bitcoind_List_Transaction['address'];
             $DEPOSIT_amount = abs($Bitcoind_List_Transaction['amount']);
@@ -98,7 +98,7 @@ if(!$user_session) {
                if(!mysql_query("INSERT INTO transactions (id,date,username,action,coin,address,txid,amount) VALUES ('','$DEPOSIT_date','$user_session','$DEPOSIT_tx_type','$DEPOSIT_coin_type','$DEPOSIT_address','$DEPOSIT_txid','$DEPOSIT_amount')")) {
                   die("Server error");
                } else {
-                  $result = plusfunds($user_session,"$my_coins->coins_names_prefix[0]",$DEPOSIT_amount);
+                  $result = plusfunds($user_session,$my_coins->coins_names_prefix[0],$DEPOSIT_amount);
                   if($result) {
                      $r_system_action = "success";
                   } else {
@@ -114,7 +114,7 @@ if(!$user_session) {
       if($Bitcrystalxd_List_Transaction['category']=="receive") {
          if(6<=$Bitcrystald_List_Transaction['confirmations']) {
             $DEPOSIT_tx_type = 'deposit';
-            $DEPOSIT_coin_type = "$my_coins->coins_names_prefix[2]";
+            $DEPOSIT_coin_type = $my_coins->coins_names_prefix[2];
             $DEPOSIT_date = date('n/j/y h:i a',$Bitcrystalxd_List_Transaction['time']);
             $DEPOSIT_address = $Bitcrystalxd_List_Transaction['address'];
             $DEPOSIT_amount = abs($Bitcrystalxd_List_Transaction['amount']);
@@ -126,7 +126,7 @@ if(!$user_session) {
                if(!mysql_query("INSERT INTO transactions (id,date,username,action,coin,address,txid,amount) VALUES ('','$DEPOSIT_date','$user_session','$DEPOSIT_tx_type','$DEPOSIT_coin_type','$DEPOSIT_address','$DEPOSIT_txid','$DEPOSIT_amount')")) {
                   die("Server error");
                } else {
-                  $result = plusfunds($user_session,"$my_coins->coins_names_prefix[2]",$DEPOSIT_amount);
+                  $result = plusfunds($user_session,$my_coins->coins_names_prefix[2],$DEPOSIT_amount);
                   if($result) {
                      $r_system_action = "success";
                   } else {
@@ -142,7 +142,7 @@ if(!$user_session) {
       if($Bitcrystald_List_Transaction['category']=="receive") {
          if(6<=$Bitcrystald_List_Transaction['confirmations']) {
             $DEPOSIT_tx_type = 'deposit';
-            $DEPOSIT_coin_type = "$my_coins->coins_names_prefix[1]";
+            $DEPOSIT_coin_type = $my_coins->coins_names_prefix[1];
             $DEPOSIT_date = date('n/j/y h:i a',$Bitcrystal_List_Transaction['time']);
             $DEPOSIT_address = $Bitcrystald_List_Transaction['address'];
             $DEPOSIT_amount = abs($Bitcrystald_List_Transaction['amount']);
@@ -154,7 +154,7 @@ if(!$user_session) {
                if(!mysql_query("INSERT INTO transactions (id,date,username,action,coin,address,txid,amount) VALUES ('','$DEPOSIT_date','$user_session','$DEPOSIT_tx_type','$DEPOSIT_coin_type','$DEPOSIT_address','$DEPOSIT_txid','$DEPOSIT_amount')")) {
                   die("Server error");
                } else {
-                  $result = plusfunds($user_session,"$my_coins->coins_names_prefix[1]",$DEPOSIT_amount);
+                  $result = plusfunds($user_session,$my_coins->coins_names_prefix[1],$DEPOSIT_amount);
                   if($result) {
                      $r_system_action = "success";
                   } else {
@@ -165,8 +165,8 @@ if(!$user_session) {
          }
       }
    }
-   $Bitcoind_Balance = userbalance($user_session,"$my_coins->coins_names_prefix[0]");      // Simple function to call the users balance
-   $Bitcrystald_Balance = userbalance($user_session,"$my_coins->coins_names_prefix[1]");
-   $Bitcrystalxd_Balance = userbalance($user_session,"$my_coins->coins_names_prefix[2]");
+   $Bitcoind_Balance = userbalance($user_session,$my_coins->coins_names_prefix[0]);      // Simple function to call the users balance
+   $Bitcrystald_Balance = userbalance($user_session,$my_coins->coins_names_prefix[1]);
+   $Bitcrystalxd_Balance = userbalance($user_session,$my_coins->coins_names_prefix[2]);
 }
 ?>

@@ -11,9 +11,9 @@ if($count!=0) {
             </tr><tr>
                <td align="left" style="font-weight: bold; padding: 2px; padding-left: 10px;" nowrap>Date</td>
                <td align="left" style="font-weight: bold; padding: 2px; padding-left: 10px;" nowrap>Action</td>
-               <td align="left" style="font-weight: bold; padding: 2px; padding-left: 10px;" nowrap>Amount (BTCRY)</td>
-               <td align="left" style="font-weight: bold; padding: 2px; padding-left: 10px;" nowrap>Rate (BTCRYX)</td>
-               <td align="left" style="font-weight: bold; padding: 2px; padding-left: 10px;" nowrap>Total (BTCRYX)</td>
+               <td align="left" style="font-weight: bold; padding: 2px; padding-left: 10px;" nowrap>Amount ('.$my_coins->coins_names_prefix[1].')</td>
+               <td align="left" style="font-weight: bold; padding: 2px; padding-left: 10px;" nowrap>Rate ('.$my_coins->coins_names_prefix[2].')</td>
+               <td align="left" style="font-weight: bold; padding: 2px; padding-left: 10px;" nowrap>Total ('.$my_coins->coins_names_prefix[2].')</td>
             </tr>';
    $Query = mysql_query("SELECT date, action, amount, rate, total FROM ordersfilled WHERE want='".$my_coins->coins_names_prefix[1]."' and processed='1' ORDER BY id DESC");
    while($Row = mysql_fetch_assoc($Query)) {

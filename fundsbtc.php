@@ -14,28 +14,29 @@ if($withdraw_withdraw=="withdraw") {
       if($withdraw_amount) {
          $withdraw_amount = satoshitize($withdraw_amount);
          if($withdraw_amount<=$Bitcoind_Balance) {
-            $set_withdraw_amount = $withdraw_amount - 0.01;       // minus the fee
+			$fee=$my_coins->coins[$my_coins->coins_names[0]]["fee"];
+            $set_withdraw_amount = $withdraw_amount - $fee;       // minus the fee
             $true_withdraw_amount = satoshitize($set_withdraw_amount);
             $Bitcoind_Withdraw_From = $Bitcoind->sendtoaddress($withdraw_address,(float)$true_withdraw_amount);
             if($Bitcoind_Withdraw_From) {
-               $result = minusfunds($user_session,"BTC",$withdraw_amount);
-               $result = plusfunds($FEEBEE,"BTC","0.01");         // add fee to feebee account
-               $Bitcoind_Balance = userbalance($user_session,"BTC");
+               $result = minusfunds($user_session,$coins_names_prefix[0],$withdraw_amount);
+               $result = plusfunds($FEEBEE,$my_coins->coins_names_prefix[0],$fee);         // add fee to feebee account
+               $Bitcoind_Balance = userbalance($user_session,$my_coins->coins_names_prefix[0]);
                $withdraw_message = '<a href="http://blockexplorer.com/tx/'.$Bitcoind_Withdraw_From.'" target="_blank" style="color: #0B2161;">Withdraw was sent! Click here for more details.</a>';
-               if(!mysql_query("INSERT INTO transactions (id,date,username,action,coin,address,txid,amount) VALUES ('','$date','$user_session','withdraw','BTC','$withdraw_address','$Bitcoind_Withdraw_From','$withdraw_amount')")){
+               if(!mysql_query("INSERT INTO transactions (id,date,username,action,coin,address,txid,amount) VALUES ('','$date','$user_session','withdraw','".$my_coins->coins_names_prefix[0]."','$withdraw_address','$Bitcoind_Withdraw_From','$withdraw_amount')")){
                   $eereturn_error = "System error.";
                } else {
                   $eereturn_error = "Logged in.";
                }
             }
          } else {
-            $withdraw_message = 'You do not have enough Bitcoins!';
+            $withdraw_message = 'You do not have enough '.$my_coins->coins_names[0].'s!';
          }
       } else {
          $withdraw_message = 'No amount to withdraw was entered!';
       }
    } else {
-      $withdraw_message = 'No Bitcoin address was entered!';
+      $withdraw_message = 'No '.$my_coins->coins_names[0].' address was entered!';
    }
 }
 ?>

@@ -18,5 +18,9 @@ if($ajax_id=="buyorders-BTCRY") { require'ajax/buyorders-BTCRY.php'; }
 if($ajax_id=="sellorders-BTCRY") { require'ajax/sellorders-BTCRY.php'; }
 if($ajax_id=="orderspast-BTCRY") { require'ajax/orderspast-BTCRY.php'; }
 
+if($ajax_id=="buyorders-BTCRYX") { require'ajax/buyorders-BTCRYX.php'; }
+if($ajax_id=="sellorders-BTCRYX") { require'ajax/sellorders-BTCRYX.php'; }
+if($ajax_id=="orderspast-BTCRYX") { require'ajax/orderspast-BTCRYX.php'; }
+
 if($ajax_id=="stats") { require'ajax/stats.php'; }
 ?>
