@@ -1,11 +1,11 @@
 <?php
 error_reporting(0);
 echo '<div align="center" class="buy-sells">';
-$sql = "SELECT * FROM buy_orderbook WHERE want='$my_coins->coins_names_prefix[1]' and processed='1'";
+$sql = "SELECT * FROM buy_orderbook WHERE want='".$my_coins->coins_names_prefix[1]."' and processed='1'";
 $result = mysql_query($sql);
 $count = mysql_num_rows($result);
 if($count!=0) {
-   $Query = mysql_query("SELECT action, amount, rate FROM buy_orderbook WHERE want='$my_coins->coins_names_prefix[1]' and processed='1' ORDER BY rate DESC");
+   $Query = mysql_query("SELECT action, amount, rate FROM buy_orderbook WHERE want='".$my_coins->coins_names_prefix[1]."' and processed='1' ORDER BY rate DESC");
    while($Row = mysql_fetch_assoc($Query)) {
       $Orders_Sells_Action = $Row['action'];
       $Orders_Sells_Amount = $Row['amount'];
@@ -19,7 +19,7 @@ if($count!=0) {
                    </tr>';
    }
       $buy_subtotal = "0";
-      $Query = mysql_query("SELECT amount,rate FROM buy_orderbook WHERE want='$my_coins->coins_names_prefix[1]' and processed='1' ORDER BY rate ASC");
+      $Query = mysql_query("SELECT amount,rate FROM buy_orderbook WHERE want='".$my_coins->coins_names_prefix[1]."' and processed='1' ORDER BY rate ASC");
       while($Row = mysql_fetch_assoc($Query)) {
          $buy_amount = $Row['amount'];
          $buy_rate = $Row['rate'];

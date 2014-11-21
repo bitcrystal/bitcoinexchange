@@ -42,7 +42,7 @@ echo '<table>
             <td nowrap>'.$my_coins->coins_names_prefix[2].'/'.$my_coins->coins_names_prefix[0].'</td>
             <td style="padding-left: 10px;" nowrap>Volume '.$btevolume.' / '.$cncvalue.' '.$my_coins->coins_names_prefix[2].'</td>
             <td style="padding-left: 30px;" nowrap>'.$my_coins->coins_names_prefix[1].'/'.$my_coins->coins_names_prefix[2].'</td>
-            <td style="padding-left: 10px;" nowrap>Volume '.$cncvolume.' / '.$btevalue.' '.$my_coins->coins_names_prefix[2].'</td>
+            <td style="padding-left: 10px;" nowrap>Volume '.$cncvolume.' / '.$btevalue.' '.$my_coins->coins_names_prefix[1].'</td>
          </tr>
       </table>';
 ?>
