@@ -30,8 +30,8 @@ if($trade_coin == $my_coins->coins_names_prefix[0])
 }
 if($trade_coin == $my_coins->coins_names_prefix[2])
 {
-	$my_coins->set_current_from_trade_coin_prefix_and_name($my_coins->coins_names_prefix[2], $my_coins->coins_names[0]);
-	$my_coins->set_current_to_trade_coin_prefix_and_name($my_coins->coins_names_prefix[1], $my_coins->coins_names[2]);
+	$my_coins->set_current_from_trade_coin_prefix_and_name($my_coins->coins_names_prefix[0], $my_coins->coins_names[0]);
+	$my_coins->set_current_to_trade_coin_prefix_and_name($my_coins->coins_names_prefix[2], $my_coins->coins_names[2]);
 }
 $BTC = $my_coins->trade_coins[$trade_coin]["BTC"]; // rate coin
 $BTCRYX = $my_coins->trade_coins[$trade_coin]["BTCRYX"]; // amount coin
