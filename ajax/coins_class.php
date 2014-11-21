@@ -109,7 +109,7 @@ class w_coins {
 		$this->trade_coins["BTCRYX"]["BTCRYX"]= $this->current_trade_to_coin_prefix;
 		$this->trade_coins["BTCRYX"]["BTCS"]= $this->current_trade_from_coin_name;
 		$this->trade_coins["BTCRYX"]["BTCRYXS"]= $this->current_trade_to_coin_name;
-		enable_default_coins();
+		$this->enable_default_coins();
 	}
 	
 	public function set_current_from_trade_coin_prefix_and_name($prefix, $name)
