@@ -26,36 +26,36 @@ class w_coins {
 		$this->coins_names = array();
 		$this->coins_names_prefix = array();
 		
-		$this->coins_names[0]=$my_w->coins["coin_name_1"];
-		$this->coins_names[1]=$my_w->coins["coin_name_2"];
-		$this->coins_names[2]=$my_w->coins["coin_name_3"];
+		$this->coins_names[0]=$this->my_w->coins["coin_name_1"];
+		$this->coins_names[1]=$this->my_w->coins["coin_name_2"];
+		$this->coins_names[2]=$this->my_w->coins["coin_name_3"];
 
-		$this->coins_names_prefix[0]=$my_w->coins["coin_prefix_1"];
-		$this->coins_names_prefix[1]=$my_w->coins["coin_prefix_2"];
-		$this->coins_names_prefix[2]=$my_w->coins["coin_prefix_3"];
+		$this->coins_names_prefix[0]=$this->my_w->coins["coin_prefix_1"];
+		$this->coins_names_prefix[1]=$this->my_w->coins["coin_prefix_2"];
+		$this->coins_names_prefix[2]=$this->my_w->coins["coin_prefix_3"];
 		$this->coins_count=count($this->coins_names);
 		
 		$this->coins[$this->coins_names[0]] = array();
 		$this->coins[$this->coins_names[0]]["enabled"]=false;
 		$this->coins[$this->coins_names[0]]["daemon"]=false;
 		$this->coins[$this->coins_names[0]]["rpcsettings"]=array();
-		$this->coins[$this->coins_names[0]]["fee"]=$my_w->coins["coin_fee_1"];
+		$this->coins[$this->coins_names[0]]["fee"]=$this->my_w->coins["coin_fee_1"];
 
 		$this->coins[$this->coins_names[1]] = array();
 		$this->coins[$this->coins_names[1]]["enabled"]=false;
 		$this->coins[$this->coins_names[1]]["daemon"]=false;
 		$this->coins[$this->coins_names[1]]["rpcsettings"]=array();
-		$this->coins[$this->coins_names[1]]["fee"]=$my_w->coins["coin_fee_2"];
+		$this->coins[$this->coins_names[1]]["fee"]=$this->my_w->coins["coin_fee_2"];
 
 		$this->coins[$this->coins_names[2]] = array();
 		$this->coins[$this->coins_names[2]]["enabled"]=false;
 		$this->coins[$this->coins_names[2]]["daemon"]=false;
 		$this->coins[$this->coins_names[2]]["rpcsettings"]=array();
-		$this->coins[$this->coins_names[2]]["fee"]=$my_w->coins["coin_fee_3"];
+		$this->coins[$this->coins_names[2]]["fee"]=$this->my_w->coins["coin_fee_3"];
 
-		$coin0rpc = $my_w->coins[$this->coins_names[0]]["rpcsettings"];
-		$coin1rpc = $my_w->coins[$this->coins_names[1]]["rpcsettings"];
-		$coin2rpc = $my_w->coins[$this->coins_names[2]]["rpcsettings"];
+		$coin0rpc = $this->my_w->coins[$this->coins_names[0]]["rpcsettings"];
+		$coin1rpc = $this->my_w->coins[$this->coins_names[1]]["rpcsettings"];
+		$coin2rpc = $this->my_w->coins[$this->coins_names[2]]["rpcsettings"];
 		
 		$this->coins[$this->coins_names[0]]["rpcsettings"]["user"]=$coin0rpc["user"];
 		$this->coins[$this->coins_names[0]]["rpcsettings"]["pass"]=$coin0rpc["pass"];
