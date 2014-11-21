@@ -15,7 +15,7 @@ $date = date("n/j/Y g:i a");;
 $db_handle = mysql_connect($dbdb_host,$dbdb_user,$dbdb_pass)or die("Server error.");
 $db_found = mysql_select_db($dbdb_database)or die("Server error.");
 
-echo $my_coins->coins_names_prefix[2];
+//echo $my_coins->coins_names_prefix[2];
 $coin_selected = $_SESSION['trade_coin'];
 if(!$coin_selected) {
    $_SESSION['trade_coin'] = $my_coins->coins_names_prefix[2];    // default trade section to load when user first arrives
@@ -36,7 +36,7 @@ if($trade_coin == $my_coins->coins_names_prefix[2])
 $BTC = $my_coins->trade_coins[$trade_coin]["BTC"]; // rate coin
 $BTCRYX = $my_coins->trade_coins[$trade_coin]["BTCRYX"]; // amount coin
 $BTCS = $my_coins->trade_coins[$trade_coin]["BTCS"]; // rate coin name
-$BTCRYXS = $my-coins->trade_coins[$trade_coin]["BTCRYXS"]; // amount coin name
+$BTCRYXS = $my_coins->trade_coins[$trade_coin]["BTCRYXS"]; // amount coin name
 
 /*$coin0rpc = $coins[$my_coins->coins_names[0]]["rpcsettings"];
 $coin1rpc = $coins[$my_coins->coins_names[1]]["rpcsettings"];
@@ -45,9 +45,9 @@ set_coins_daemon($my_coins->coins_names[0], $coin0rpc["user"], $coin0rpc["pass"]
 set_coins_daemon($my_coins->coins_names[1], $coin1rpc["user"], $coin1rpc["pass"], $coin1rpc["host"], $coin1rpc["port"]);
 set_coins_daemon($my_coins->coins_names[2], $coin2rpc["user"], $coin2rpc["pass"], $coin2rpc["host"], $coin2rpc["port"]);
 */
-$Bitcoind = get_coins_daemon($my_coins->coins_names[0]);
-$Bitcrystald = get_coins_daemon($my_coins->coins_names[1]);
-$Bitcrystalxd = get_coins_daemon($my_coins->coins_names[2]);
+$Bitcoind = $my_coins->get_coins_daemon($my_coins->coins_names[0]);
+$Bitcrystald = $my_coins->get_coins_daemon($my_coins->coins_names[1]);
+$Bitcrystalxd = $my_coins->get_coins_daemon($my_coins->coins_names[2]);
 
 $user_session = $_SESSION['user_session'];
 if(!$user_session) {
