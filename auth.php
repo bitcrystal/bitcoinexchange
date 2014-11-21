@@ -18,7 +18,7 @@ $db_found = mysql_select_db($dbdb_database)or die("Server error.");
 //echo $my_coins->coins_names_prefix[2];
 $coin_selected = $_SESSION['trade_coin'];
 if(!$coin_selected) {
-   $_SESSION['trade_coin'] = $my_coins->coins_names_prefix[2];    // default trade section to load when user first arrives
+   $_SESSION['trade_coin'] = $my_coins->coins_names_prefix[0];    // default trade section to load when user first arrives
    header("Location: home.php");
 }
 
