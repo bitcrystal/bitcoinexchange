@@ -8,8 +8,8 @@ if($Logged_In!==7) {
 }
 $coin_selecter = security($_GET['c']);
 if($coin_selecter) {
-   if($coin_selecter=="$my_coins->coins_names_prefix[1]") { $_SESSION['trade_coin'] = "$my_coins->coins_names_prefix[1]"; }
-   if($coin_selecter=="$my_coins->coins_names_prefix[2]") { $_SESSION['trade_coin'] = "$my_coins->coins_names_prefix[2]"; }
+   if($coin_selecter==$my_coins->coins_names_prefix[1]) { $_SESSION['trade_coin'] = $my_coins->coins_names_prefix[1]; }
+   if($coin_selecter==$my_coins->coins_names_prefix[2]) { $_SESSION['trade_coin'] = $my_coins->coins_names_prefix[2]; }
    header("Location: home.php");
 }
 $Coin_A_Balance = userbalance($user_session,$BTC);
@@ -325,7 +325,7 @@ if($PST_Order_Action=="sell") {
          <td align="left" valign="top" style="padding: 5px;" nowrap>
             <table>
                <tr>
-                     <?php echo "<td><div class=\"coin-button\"><a href=\"home.php?c=".$my_coins->coins_names_prefix[0]."\" class=\"coin-link\">".$my_coins->coins_names_prefix[2]."/".$my_coins->coins_names_prefix[0]."</a></div></td>"; ?>
+                     <?php echo "<td><div class=\"coin-button\"><a href=\"home.php?c=".$my_coins->coins_names_prefix[2]."\" class=\"coin-link\">".$my_coins->coins_names_prefix[2]."/".$my_coins->coins_names_prefix[0]."</a></div></td>"; ?>
 					 <?php echo "<td style=\"padding-left: 20px;\"><div class=\"coin-button\"><a href=\"home.php?c=".$my_coins->coins_names_prefix[1]."\" class=\"coin-link\">".$my_coins->coins_names_prefix[1]."/".$my_coins->coins_names_prefix[2]."</a></div></td>"; ?>
                </tr>
             </table>
