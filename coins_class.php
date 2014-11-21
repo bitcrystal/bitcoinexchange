@@ -1,7 +1,7 @@
 <?php
-require_once 'w_coins_settings';
+require_once 'w_coins_settings.php';
 class w_coins {
-	private w_coins_settings $my_w;
+	private $my_w;
 	public $coins_names;
 	public $coins_names_prefix;
 	private $coins_count;
@@ -17,7 +17,7 @@ class w_coins {
 	private $current_trade_to_coin_prefix;
 	private $current_trade_to_coin_name;
 	public $trade_coins;
-	private static w_coins $SINGLETON = NULL;
+	private static $SINGLETON = NULL;
 	
 	private function __construct() {
 		$my_w = new w_coins_settings();
@@ -182,9 +182,9 @@ class w_coins {
 		}	
 	}
 
-	public function get_coins_daemon_safe($name, $rpc_user, $rpc_pass, $rpc_host, $rpc_port,&$coins)
+	public function get_coins_daemon_safe($name, $rpc_user, $rpc_pass, $rpc_host, $rpc_port)
 	{
-		$rv=set_coins_daemon($name, $rpc_user, $rpc_pass, $rpc_host, $rpc_port, &$coins);
+		$rv=set_coins_daemon($name, $rpc_user, $rpc_pass, $rpc_host, $rpc_port);
 		if($rv==true)
 		{
 			return $coins[$name]["daemon"];
