@@ -1,7 +1,7 @@
 <?php
 require'database.php';
 require_once'functions_main.php';
-require_once'coins.php';
+include'coins.php';
 
 $FEEBEE = "feebee";   // IMPORTANT, this is the account that fees will be paid to make sure to register it
 
