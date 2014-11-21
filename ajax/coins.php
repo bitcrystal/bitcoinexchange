@@ -1,4 +1,6 @@
 <?php
+if(isset($is_enabled_default_coins))
+	return;
 $coins_names = array();
 $coins_names_prefix = array();
 
@@ -58,6 +60,7 @@ $enabled_coins[2]="Bitcrystalx";
 $enabled_coins_count = count($enabled_coins);
 
 $is_enabled_coins=false;
+$is_enabled_default_coins=false;
 
 $current_trade_coin_names = array();
 $current_trade_coin_names[0]=$coins_names[0];
@@ -104,7 +107,7 @@ function set_current_from_trade_coin_prefix_and_name($prefix, $name)
 	$current_trade_from_coin_name=$name;
 	$trade_coins["BTCRY"]["BTC"]= $current_trade_from_coin_prefix;
 	$trade_coins["BTCRY"]["BTCS"]= $current_trade_from_coin_name;
-	$trade_coins["BTCRYX"]["BTC"]= $current_trade_from_coin_prefix
+	$trade_coins["BTCRYX"]["BTC"]= $current_trade_from_coin_prefix;
 	$trade_coins["BTCRYX"]["BTCS"]= $current_trade_from_coin_name;
 }
 
@@ -252,4 +255,23 @@ function enable_coins()
 	}
 	$is_enabled_coins=true;
 }
+
+function enable_default_coins()
+{
+	if($is_enabled_default_coins==true)
+		return;
+	
+	for($i = 0; $i < $coins_count; $i++)
+	{
+		$name = $coins_names[$i];
+		$rpc_user = $coins[$name]["rpcsettings"]["user"];
+		$rpc_pass = $coins[$name]["rpcsettings"]["pass"];
+		$rpc_host = $coins[$name]["rpcsettings"]["host"];
+		$rpc_port = $coins[$name]["rpcsettings"]["port"];
+		$coins[$name]["enabled"]=true;
+		set_coins_daemon($name, $rpc_user, $rpc_pass, $rpc_host, $rpc_port);
+	}
+	$is_enabled_default_coins=true;
+}
+enable_default_coins();
 ?>

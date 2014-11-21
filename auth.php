@@ -37,12 +37,13 @@ $BTCRYX = $trade_coins[$trade_coin]["BTCRYX"]; // amount coin
 $BTCS = $trade_coins[$trade_coin]["BTCS"]; // rate coin name
 $BTCRYXS = $trade_coins[$trade_coin]["BTCRYXS"]; // amount coin name
 
-$coin0rpc = $coins[$coins_names[0]]["rpcsettings"];
+/*$coin0rpc = $coins[$coins_names[0]]["rpcsettings"];
 $coin1rpc = $coins[$coins_names[1]]["rpcsettings"];
 $coin2rpc = $coins[$coins_names[2]]["rpcsettings"];
 set_coins_daemon($coins_names[0], $coin0rpc["user"], $coin0rpc["pass"], $coin0rpc["host"], $coin0rpc["port"]);
 set_coins_daemon($coins_names[1], $coin1rpc["user"], $coin1rpc["pass"], $coin1rpc["host"], $coin1rpc["port"]);
 set_coins_daemon($coins_names[2], $coin2rpc["user"], $coin2rpc["pass"], $coin2rpc["host"], $coin2rpc["port"]);
+*/
 $Bitcoind = get_coins_daemon($coins_names[0]);
 $Bitcrystald = get_coins_daemon($coins_names[1]);
 $Bitcrystalxd = get_coins_daemon($coins_names[2]);
