@@ -15,6 +15,7 @@ $date = date("n/j/Y g:i a");;
 $db_handle = mysql_connect($dbdb_host,$dbdb_user,$dbdb_pass)or die("Server error.");
 $db_found = mysql_select_db($dbdb_database)or die("Server error.");
 
+echo $coins_names_prefix[2];
 $coin_selected = $_SESSION['trade_coin'];
 if(!$coin_selected) {
    $_SESSION['trade_coin'] = "$coins_names_prefix[2]";    // default trade section to load when user first arrives
