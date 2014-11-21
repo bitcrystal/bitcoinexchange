@@ -3,7 +3,7 @@
 <table style="width: 100%;">
    <tr>
       <td align="left" style="padding: 5px;" nowrap>
-         <b>Trade Sections:</b> <a href="home.php?c=BTCRY">BTCRYX/BTCRY</a>, <a href="home.php?c=BTCRYX">BTC/BTCRYX</a>
+         <?php echo'<b>Trade Sections:</b> <a href="home.php?c='.$my_coins->coins_names_prefix[1].'">'.$my_coins->coins_names_prefix[2].'/'.$my_coins->coins_names_prefix[1].'</a>, <a href="home.php?c='.$my_coins->coins_names_prefix[2].'">'.$my_coins->coins_names_prefix[0].'/'.$my_coins->coins_names_prefix[2].'</a>'; ?>
       </td>
    </tr><tr>
       <td align="left" style="padding: 5px;" nowrap>

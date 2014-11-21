@@ -25,18 +25,18 @@ if(!$coin_selected) {
 $trade_coin = $_SESSION['trade_coin'];
 if($trade_coin == $my_coins->coins_names_prefix[1])
 {
-	set_current_from_trade_coin_prefix_and_name($my_coins->coins_names_prefix[2], $my_coins->coins_names[2]);
-	set_current_to_trade_coin_prefix_and_name($my_coins->coins_names_prefix[1], $my_coins->coins_names[1]);
+	$my_coins->set_current_from_trade_coin_prefix_and_name($my_coins->coins_names_prefix[2], $my_coins->coins_names[2]);
+	$my_coins->set_current_to_trade_coin_prefix_and_name($my_coins->coins_names_prefix[1], $my_coins->coins_names[1]);
 }
 if($trade_coin == $my_coins->coins_names_prefix[2])
 {
-	set_current_from_trade_coin_prefix_and_name($my_coins->coins_names_prefix[0], $my_coins->coins_names[0]);
-	set_current_to_trade_coin_prefix_and_name($my_coins->coins_names_prefix[2], $my_coins->coins_names[2]);
+	$my_coins->set_current_from_trade_coin_prefix_and_name($my_coins->coins_names_prefix[0], $my_coins->coins_names[0]);
+	$my_coins->set_current_to_trade_coin_prefix_and_name($my_coins->coins_names_prefix[2], $my_coins->coins_names[2]);
 }
-$BTC = $trade_coins[$trade_coin]["BTC"]; // rate coin
-$BTCRYX = $trade_coins[$trade_coin]["BTCRYX"]; // amount coin
-$BTCS = $trade_coins[$trade_coin]["BTCS"]; // rate coin name
-$BTCRYXS = $trade_coins[$trade_coin]["BTCRYXS"]; // amount coin name
+$BTC = $my_coins->trade_coins[$trade_coin]["BTC"]; // rate coin
+$BTCRYX = $my_coins->trade_coins[$trade_coin]["BTCRYX"]; // amount coin
+$BTCS = $my_coins->trade_coins[$trade_coin]["BTCS"]; // rate coin name
+$BTCRYXS = $my-coins->trade_coins[$trade_coin]["BTCRYXS"]; // amount coin name
 
 /*$coin0rpc = $coins[$my_coins->coins_names[0]]["rpcsettings"];
 $coin1rpc = $coins[$my_coins->coins_names[1]]["rpcsettings"];
