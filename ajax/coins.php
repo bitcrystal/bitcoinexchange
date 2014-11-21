@@ -1,5 +1,5 @@
 <?php
-if(isset($is_enabled_default_coins))
+if(isset($is_enabled_default_coins) && $is_enabled_default_coins == true)
 	return;
 $coins_names = array();
 $coins_names_prefix = array();
