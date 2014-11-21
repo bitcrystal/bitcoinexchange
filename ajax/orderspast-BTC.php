@@ -1,6 +1,6 @@
 <?php
 error_reporting(0);
-$sql = "SELECT * FROM ordersfilled WHERE want='$my_coins->$coins_names_prefix[0]' and processed='1' ORDER BY rate DESC";
+$sql = "SELECT * FROM ordersfilled WHERE want='$my_coins->coins_names_prefix[0]' and processed='1' ORDER BY rate DESC";
 $result = mysql_query($sql);
 $count = mysql_num_rows($result);
 if($count!=0) {
@@ -14,7 +14,7 @@ if($count!=0) {
                <td align="left" style="font-weight: bold; padding: 2px; padding-left: 10px;" nowrap>Rate (BTC)</td>
                <td align="left" style="font-weight: bold; padding: 2px; padding-left: 10px;" nowrap>Total (BTC)</td>
             </tr>';
-   $Query = mysql_query("SELECT date, action, amount, rate, total FROM ordersfilled WHERE want='$my_coins->$coins_names_prefix[0]' and processed='1' ORDER BY id DESC");
+   $Query = mysql_query("SELECT date, action, amount, rate, total FROM ordersfilled WHERE want='$my_coins->coins_names_prefix[0]' and processed='1' ORDER BY id DESC");
    while($Row = mysql_fetch_assoc($Query)) {
       $Orders_Sells_DATE = $Row['date'];
       $Orders_Sells_Action = $Row['action'];

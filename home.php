@@ -8,8 +8,8 @@ if($Logged_In!==7) {
 }
 $coin_selecter = security($_GET['c']);
 if($coin_selecter) {
-   if($coin_selecter=="$my_coins->$coins_names_prefix[1]") { $_SESSION['trade_coin'] = "$my_coins->$coins_names_prefix[1]"; }
-   if($coin_selecter=="$my_coins->$coins_names_prefix[2]") { $_SESSION['trade_coin'] = "$my_coins->$coins_names_prefix[2]"; }
+   if($coin_selecter=="$my_coins->coins_names_prefix[1]") { $_SESSION['trade_coin'] = "$my_coins->coins_names_prefix[1]"; }
+   if($coin_selecter=="$my_coins->coins_names_prefix[2]") { $_SESSION['trade_coin'] = "$my_coins->coins_names_prefix[2]"; }
    header("Location: home.php");
 }
 $Coin_A_Balance = userbalance($user_session,$BTC);
@@ -228,9 +228,9 @@ if($PST_Order_Action=="sell") {
             $("#pending-deposits").load("ajax.php?id=pending-deposits");
          }, 30000);
         setInterval(function () {
-            $("#orderspast").load("ajax.php?id=orderspast-<?php $TMP_BTC=$BTC; if($BTC==$my_coins->$coins_names_prefix[0]) { $TMP_BTC="BTC"; } else if($BTC==$my_coins->$coins_names_prefix[1]) { $TMP_BTC="BTCRY"; } else { $TMP_BTC="BTCRYX";} echo $TMP_BTC; ?>");
-            $("#buyorders").load("ajax.php?id=buyorders-<?php $TMP_BTC=$BTC; if($BTC==$my_coins->$coins_names_prefix[0]) { $TMP_BTC="BTC"; } else if($BTC==$my_coins->$coins_names_prefix[1]) { $TMP_BTC="BTCRY"; } else { $TMP_BTC="BTCRYX";} echo $TMP_BTC; ?>");
-            $("#sellorders").load("ajax.php?id=sellorders-<?php $TMP_BTC=$BTC; if($BTC==$my_coins->$coins_names_prefix[0]) { $TMP_BTC="BTC"; } else if($BTC==$my_coins->$coins_names_prefix[1]) { $TMP_BTC="BTCRY"; } else { $TMP_BTC="BTCRYX";} echo $TMP_BTC; ?>");
+            $("#orderspast").load("ajax.php?id=orderspast-<?php $TMP_BTC=$BTC; if($BTC==$my_coins->coins_names_prefix[0]) { $TMP_BTC="BTC"; } else if($BTC==$my_coins->coins_names_prefix[1]) { $TMP_BTC="BTCRY"; } else { $TMP_BTC="BTCRYX";} echo $TMP_BTC; ?>");
+            $("#buyorders").load("ajax.php?id=buyorders-<?php $TMP_BTC=$BTC; if($BTC==$my_coins->coins_names_prefix[0]) { $TMP_BTC="BTC"; } else if($BTC==$my_coins->coins_names_prefix[1]) { $TMP_BTC="BTCRY"; } else { $TMP_BTC="BTCRYX";} echo $TMP_BTC; ?>");
+            $("#sellorders").load("ajax.php?id=sellorders-<?php $TMP_BTC=$BTC; if($BTC==$my_coins->coins_names_prefix[0]) { $TMP_BTC="BTC"; } else if($BTC==$my_coins->coins_names_prefix[1]) { $TMP_BTC="BTCRY"; } else { $TMP_BTC="BTCRYX";} echo $TMP_BTC; ?>");
             $(".count").load("online.php");
             $("#stats").load("ajax.php?id=stats");
         }, 60000);
@@ -325,8 +325,8 @@ if($PST_Order_Action=="sell") {
          <td align="left" valign="top" style="padding: 5px;" nowrap>
             <table>
                <tr>
-                     <?php echo "<td><div class=\"coin-button\"><a href=\"home.php?c=$my_coins->$coins_names_prefix[0]\" class=\"coin-link\">$my_coins->$coins_names_prefix[2]/$my_coins->$coins_names_prefix[0]</a></div></td>"; ?>
-					 <?php echo "<td style=\"padding-left: 20px;\"><div class=\"coin-button\"><a href=\"home.php?c=$my_coins->$coins_names_prefix[1]\" class=\"coin-link\">$my_coins->$coins_names_prefix[1]/$my_coins->$coins_names_prefix[2]</a></div></td>"; ?>
+                     <?php echo "<td><div class=\"coin-button\"><a href=\"home.php?c=$my_coins->coins_names_prefix[0]\" class=\"coin-link\">$my_coins->coins_names_prefix[2]/$my_coins->coins_names_prefix[0]</a></div></td>"; ?>
+					 <?php echo "<td style=\"padding-left: 20px;\"><div class=\"coin-button\"><a href=\"home.php?c=$my_coins->coins_names_prefix[1]\" class=\"coin-link\">$my_coins->coins_names_prefix[1]/$my_coins->coins_names_prefix[2]</a></div></td>"; ?>
                </tr>
             </table>
          </td>
@@ -415,14 +415,14 @@ if($PST_Order_Action=="sell") {
          </td>
       </tr><tr>
          <td align="left" valign="top" style="padding: 5px;" nowrap>
-            <span id="sellorders"><?php $TMP_BTC=$BTC; if($BTC==$my_coins->$coins_names_prefix[0]) { $TMP_BTC="BTC"; } else if($BTC==$my_coins->$coins_names_prefix[1]) { $TMP_BTC="BTCRY"; } else { $TMP_BTC="BTCRYX";} require"ajax/buyorders-$TMP_BTC.php"; ?></span>
+            <span id="sellorders"><?php $TMP_BTC=$BTC; if($BTC==$my_coins->coins_names_prefix[0]) { $TMP_BTC="BTC"; } else if($BTC==$my_coins->coins_names_prefix[1]) { $TMP_BTC="BTCRY"; } else { $TMP_BTC="BTCRYX";} require"ajax/buyorders-$TMP_BTC.php"; ?></span>
          </td>
          <td align="left" valign="top" style="padding: 5px;" nowrap>
-            <span id="buyorders"><?php $TMP_BTC=$BTC; if($BTC==$my_coins->$coins_names_prefix[0]) { $TMP_BTC="BTC"; } else if($BTC==$my_coins->$coins_names_prefix[1]) { $TMP_BTC="BTCRY"; } else { $TMP_BTC="BTCRYX";} require"ajax/sellorders-$TMP_BTC.php"; ?></span>
+            <span id="buyorders"><?php $TMP_BTC=$BTC; if($BTC==$my_coins->coins_names_prefix[0]) { $TMP_BTC="BTC"; } else if($BTC==$my_coins->coins_names_prefix[1]) { $TMP_BTC="BTCRY"; } else { $TMP_BTC="BTCRYX";} require"ajax/sellorders-$TMP_BTC.php"; ?></span>
          </td>
       </tr><tr>
          <td colspan="2" align="left" valign="top" style="padding: 5px;" nowrap>
-            <span id="orderspast"><?php $TMP_BTC=$BTC; if($BTC==$my_coins->$coins_names_prefix[0]) { $TMP_BTC="BTC"; } else if($BTC==$my_coins->$coins_names_prefix[1]) { $TMP_BTC="BTCRY"; } else { $TMP_BTC="BTCRYX";} require"ajax/orderspast-$TMP_BTC.php"; ?></span>
+            <span id="orderspast"><?php $TMP_BTC=$BTC; if($BTC==$my_coins->coins_names_prefix[0]) { $TMP_BTC="BTC"; } else if($BTC==$my_coins->coins_names_prefix[1]) { $TMP_BTC="BTCRY"; } else { $TMP_BTC="BTCRYX";} require"ajax/orderspast-$TMP_BTC.php"; ?></span>
          </td>
       </tr>
    </table>
