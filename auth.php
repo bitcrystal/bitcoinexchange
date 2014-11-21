@@ -18,20 +18,20 @@ $db_found = mysql_select_db($dbdb_database)or die("Server error.");
 echo $coins_names_prefix[2];
 $coin_selected = $_SESSION['trade_coin'];
 if(!$coin_selected) {
-   $_SESSION['trade_coin'] = "$coins_names_prefix[2]";    // default trade section to load when user first arrives
+   $_SESSION['trade_coin'] = $coins_names_prefix[2];    // default trade section to load when user first arrives
    header("Location: home.php");
 }
 
 $trade_coin = $_SESSION['trade_coin'];
-if($trade_coin == "$coins_names_prefix[1]")
+if($trade_coin == $coins_names_prefix[1])
 {
-	set_current_from_trade_coin_prefix_and_name("$coins_names_prefix[2]", "$coins_names[2]");
-	set_current_to_trade_coin_prefix_and_name("$coins_names_prefix[1]", "$coins_names[1]");
+	set_current_from_trade_coin_prefix_and_name($coins_names_prefix[2], $coins_names[2]);
+	set_current_to_trade_coin_prefix_and_name($coins_names_prefix[1], $coins_names[1]);
 }
-if($trade_coin == "$coins_names_prefix[2]")
+if($trade_coin == $coins_names_prefix[2])
 {
-	set_current_from_trade_coin_prefix_and_name("$coins_names_prefix[0]", "$coins_names[0]");
-	set_current_to_trade_coin_prefix_and_name("$coins_names_prefix[2]", "$coins_names[2]");
+	set_current_from_trade_coin_prefix_and_name($coins_names_prefix[0], $coins_names[0]);
+	set_current_to_trade_coin_prefix_and_name($coins_names_prefix[2], $coins_names[2]);
 }
 $BTC = $trade_coins[$trade_coin]["BTC"]; // rate coin
 $BTCRYX = $trade_coins[$trade_coin]["BTCRYX"]; // amount coin
