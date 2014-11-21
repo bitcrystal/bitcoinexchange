@@ -188,9 +188,6 @@ if($PST_Order_Action=="sell") {
                   if(!mysql_query("INSERT INTO sell_orderbook (id, date, ip, username, action, want, initial_amount, amount, rate, processed) VALUES ('','$date','$ip','$user_session','sell','$BTC','$PST_Order_Amount','$PST_Order_Amount','$PST_Order_Rate','1')")) {
                      $Trade_Message = "System error.";
                   } else {
-                     if($my_coins->sellfee==true)
-					 {
-					 $result = minusfunds(
 					 $result = minusfunds($user_session,$BTCRYX,$PST_Order_Amount);
                      
 					 if($result=="success") {
