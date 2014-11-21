@@ -33,10 +33,10 @@ if($trade_coin == $my_coins->coins_names_prefix[2])
 	$my_coins->set_current_from_trade_coin_prefix_and_name($my_coins->coins_names_prefix[0], $my_coins->coins_names[0]);
 	$my_coins->set_current_to_trade_coin_prefix_and_name($my_coins->coins_names_prefix[2], $my_coins->coins_names[2]);
 }
-$BTC = $my_coins->trade_coins[$trade_coin]["BTC"]; // rate coin
-$BTCRYX = $my_coins->trade_coins[$trade_coin]["BTCRYX"]; // amount coin
-$BTCS = $my_coins->trade_coins[$trade_coin]["BTCS"]; // rate coin name
-$BTCRYXS = $my_coins->trade_coins[$trade_coin]["BTCRYXS"]; // amount coin name
+$BTC = $my_coins->trade_coins["BTCRY"]["BTC"]; // rate coin
+$BTCRYX = $my_coins->trade_coins["BTCRY"]["BTCRYX"]; // amount coin
+$BTCS = $my_coins->trade_coins["BTCRY"]["BTCS"]; // rate coin name
+$BTCRYXS = $my_coins->trade_coins["BTCRY"]["BTCRYXS"]; // amount coin name
 
 /*$coin0rpc = $coins[$my_coins->coins_names[0]]["rpcsettings"];
 $coin1rpc = $coins[$my_coins->coins_names[1]]["rpcsettings"];
