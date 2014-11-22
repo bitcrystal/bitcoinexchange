@@ -30,7 +30,6 @@ if($count_transactions_buy != 0)
 {
 		$i = 0;
 		while($Row = mysql_fetch_assoc($select)) {
-		date 
 			$date = $Row["date"];
 			$ip = $Row["ip"]
 			$username = $Row["username"];
@@ -55,7 +54,6 @@ if($count_transactions_sell != 0)
 {
 		$i = 0;
 		while($Row = mysql_fetch_assoc($select2)) {
-		date 
 			$date = $Row["date"];
 			$ip = $Row["ip"]
 			$username = $Row["username"];
