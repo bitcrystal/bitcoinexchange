@@ -1,8 +1,8 @@
 <?php
 require_once('coins.php');
-global $GLOBALS;
-$GLOBALS = array();
-$GLOBALS['my_coins']=$my_coins;
+$GLOBALS['cp0']=$my_coins->coins_names_prefix[0];
+$GLOBALS['cp2']=$my_coins->coins_names_prefix[2];
+$GLOBALS['cp1']=$my_coins->coins_names_prefix[1];
 function security($value) {
    if(is_array($value)) {
       $value = array_map('security', $value);
@@ -36,16 +36,15 @@ function satoshitrim($satoshitrim) {
 }
 
 function userbalance($function_user,$function_coin) {
-   $my_coins=$GLOBALS['my_coins'];
-   if($function_coin==$my_coins->coin_names_prefix[0]) {
+   if($function_coin==$GLOBALS['cp0']) {
       $function_query = mysql_query("SELECT coin1 FROM balances WHERE username='$function_user'");
       while($function_row = mysql_fetch_assoc($function_query)) { $function_return = $function_row['coin1']; }
    }
-   if($function_coin==$my_coins->coin_names_prefix[2]) {
+   if($function_coin==$GLOBALS['cp2']) {
       $function_query = mysql_query("SELECT coin2 FROM balances WHERE username='$function_user'");
       while($function_row = mysql_fetch_assoc($function_query)) { $function_return = $function_row['coin2']; }
    }
-   if($function_coin==$my_coins->coin_names_prefix[1]) {
+   if($function_coin==$GLOBALS['cp1']) {
       $function_query = mysql_query("SELECT coin3 FROM balances WHERE username='$function_user'");
       while($function_row = mysql_fetch_assoc($function_query)) { $function_return = $function_row['coin3']; }
    }
@@ -69,13 +68,12 @@ function sellrate($function_coin) {
 }
 
 function plusfunds($function_user,$function_coin,$function_amount) {
-   $my_coins=$GLOBALS['my_coins'];
    $function_user_balance = userbalance($function_user,$function_coin);
    $function_balance = $function_user_balance + $function_amount;
    $function_balance = satoshitrim(satoshitize($function_balance));
-   if($function_coin==$my_coins->coins_names_prefix[0]) { $sql = "UPDATE balances SET coin1='$function_balance' WHERE username='$function_user'"; }
-   if($function_coin==$my_coins->coins_names_prefix[2]) { $sql = "UPDATE balances SET coin2='$function_balance' WHERE username='$function_user'"; }
-   if($function_coin==$my_coins->coins_names_prefix[1]) { $sql = "UPDATE balances SET coin3='$function_balance' WHERE username='$function_user'"; }
+   if($function_coin==$GLOBALS['cp0']) { $sql = "UPDATE balances SET coin1='$function_balance' WHERE username='$function_user'"; }
+   if($function_coin==$GLOBALS['cp2']) { $sql = "UPDATE balances SET coin2='$function_balance' WHERE username='$function_user'"; }
+   if($function_coin==$GLOBALS['cp1']) { $sql = "UPDATE balances SET coin3='$function_balance' WHERE username='$function_user'"; }
    $result = mysql_query($sql);
    if($result) {
       $function_return = "success";
@@ -86,13 +84,12 @@ function plusfunds($function_user,$function_coin,$function_amount) {
 }
 
 function minusfunds($function_user,$function_coin,$function_amount) {
-   $my_coins=$GLOBALS['my_coins'];
    $function_user_balance = userbalance($function_user,$function_coin);
    $function_balance = $function_user_balance - $function_amount;
    $function_balance = satoshitrim(satoshitize($function_balance));
-   if($function_coin==$my_coins->coins_names_prefix[0]) { $sql = "UPDATE balances SET coin1='$function_balance' WHERE username='$function_user'"; }
-   if($function_coin==$my_coins->coins_names_prefix[2]) { $sql = "UPDATE balances SET coin2='$function_balance' WHERE username='$function_user'"; }
-   if($function_coin==$my_coins->coins_names_prefix[1]) { $sql = "UPDATE balances SET coin3='$function_balance' WHERE username='$function_user'"; }
+   if($function_coin==$GLOBALS['cp0']) { $sql = "UPDATE balances SET coin1='$function_balance' WHERE username='$function_user'"; }
+   if($function_coin==$GLOBALS['cp2']) { $sql = "UPDATE balances SET coin2='$function_balance' WHERE username='$function_user'"; }
+   if($function_coin==$GLOBALS['cp1']) { $sql = "UPDATE balances SET coin3='$function_balance' WHERE username='$function_user'"; }
    $result = mysql_query($sql);
    if($result) {
       $function_return = "success";
