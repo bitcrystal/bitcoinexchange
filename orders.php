@@ -8,12 +8,12 @@ if($Logged_In!==7) {
 }
 $transactions_message_buy=array();
 $transactions_message_sell=array();
-$select = mysql_query("SELECT * FROM buy_orderbook WHERE username='".$_SESSION['user_session']."' AND WHERE processed = '1';");
+$select = mysql_query("SELECT * FROM buy_orderbook WHERE username='".$_SESSION['user_session']."' AND processed = '1';");
 if(!$select)
 {
 	$transactions_message_buy[0]="no buy orders";
 }
-$select2 = mysql_query("SELECT * FROM buy_orderbook WHERE username='".$_SESSION['user_session']."' AND WHERE processed = '1';");
+$select2 = mysql_query("SELECT * FROM buy_orderbook WHERE username='".$_SESSION['user_session']."' AND processed = '1';");
 if(!$select2)
 {
 	$transactions_message_sell[0]="no sell orders";
