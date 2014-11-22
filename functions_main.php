@@ -1,5 +1,7 @@
 <?php
 require_once('coins.php');
+global $GLOBALS;
+$GLOBALS = array();
 $GLOBALS['my_coins']=$my_coins;
 function security($value) {
    if(is_array($value)) {
@@ -98,10 +100,5 @@ function minusfunds($function_user,$function_coin,$function_amount) {
       $function_return = "error";
    }
    return $function_return;
-}
-
-function update_to_feebee($FEEBEE)
-{
-	
 }
 ?>
