@@ -120,5 +120,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   `ip` varchar(30) NOT NULL,
   `username` varchar(65) NOT NULL,
   `password` varchar(300) NOT NULL,
+  `email` varchar(300) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;

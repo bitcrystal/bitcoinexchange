@@ -75,6 +75,8 @@ class w_coins_settings
 		$this->coins[$coins_name]["rpcsettings"]["pass"]="fickdiehenneextended";
 		$this->coins[$coins_name]["rpcsettings"]["host"]="127.0.0.1";
 		$this->coins[$coins_name]["rpcsettings"]["port"]="8332";
+		$this->coins[$coins_name]["rpcsettings"]["walletpassphrase"]="";
+		$this->coins[$coins_name]["rpcsettings"]["walletpassphrase_timeout"]=99999999;
 	}
 	
 	private function init_rpc_settings_coin_2()
@@ -86,6 +88,8 @@ class w_coins_settings
 		$this->coins[$coins_name]["rpcsettings"]["pass"]="fickdiehenne";
 		$this->coins[$coins_name]["rpcsettings"]["host"]="127.0.0.1";
 		$this->coins[$coins_name]["rpcsettings"]["port"]="19332";
+		$this->coins[$coins_name]["rpcsettings"]["walletpassphrase"]="";
+		$this->coins[$coins_name]["rpcsettings"]["walletpassphrase_timeout"]=99999999;
 	}
 	
 	private function init_rpc_settings_coin_3()
@@ -97,9 +101,11 @@ class w_coins_settings
 		$this->coins[$coins_name]["rpcsettings"]["pass"]="fickdiehenneextended";
 		$this->coins[$coins_name]["rpcsettings"]["host"]="127.0.0.1";
 		$this->coins[$coins_name]["rpcsettings"]["port"]="19333";
+		$this->coins[$coins_name]["rpcsettings"]["walletpassphrase"]="";
+		$this->coins[$coins_name]["rpcsettings"]["walletpassphrase_timeout"]=99999999;
 	}
 	
-	public function set_rpc_settings_coin_1($rpc_user, $rpc_pass, $rpc_host, $rpc_port)
+	public function set_rpc_settings_coin_1($rpc_user, $rpc_pass, $rpc_host, $rpc_port, $rpc_walletpassphrase="", $rpc_walletpassphrase_timeout=99999999)
 	{
 		$coins_name = $this->coins["coin_name_1"];
 		
@@ -107,9 +113,11 @@ class w_coins_settings
 		$this->coins[$coins_name]["rpcsettings"]["pass"]=$rpc_pass;
 		$this->coins[$coins_name]["rpcsettings"]["host"]=$rpc_host;
 		$this->coins[$coins_name]["rpcsettings"]["port"]=$rpc_port;
+		$this->coins[$coins_name]["rpcsettings"]["walletpassphrase"]=$rpc_walletpassphrase;
+		$this->coins[$coins_name]["rpcsettings"]["walletpassphrase_timeout"]=$rpc_walletpassphrase_timeout;
 	}
 	
-	public function set_rpc_settings_coin_2($rpc_user, $rpc_pass, $rpc_host, $rpc_port)
+	public function set_rpc_settings_coin_2($rpc_user, $rpc_pass, $rpc_host, $rpc_port, $rpc_walletpassphrase="", $rpc_walletpassphrase_timeout=99999999)
 	{
 		$coins_name = $this->coins["coin_name_2"];
 		
@@ -117,9 +125,11 @@ class w_coins_settings
 		$this->coins[$coins_name]["rpcsettings"]["pass"]=$rpc_pass;
 		$this->coins[$coins_name]["rpcsettings"]["host"]=$rpc_host;
 		$this->coins[$coins_name]["rpcsettings"]["port"]=$rpc_port;
+		$this->coins[$coins_name]["rpcsettings"]["walletpassphrase"]=$rpc_walletpassphrase;
+		$this->coins[$coins_name]["rpcsettings"]["walletpassphrase_timeout"]=$rpc_walletpassphrase_timeout;
 	}
 	
-	public function set_rpc_settings_coin_3($rpc_user, $rpc_pass, $rpc_host, $rpc_port)
+	public function set_rpc_settings_coin_3($rpc_user, $rpc_pass, $rpc_host, $rpc_port, $rpc_walletpassphrase="", $rpc_walletpassphrase_timeout=99999999)
 	{
 		$coin_name = $this->coins["coin_name_3"];
 		
@@ -127,6 +137,8 @@ class w_coins_settings
 		$this->coins[$coins_name]["rpcsettings"]["pass"]=$rpc_pass;
 		$this->coins[$coins_name]["rpcsettings"]["host"]=$rpc_host;
 		$this->coins[$coins_name]["rpcsettings"]["port"]=$rpc_port;
+		$this->coins[$coins_name]["rpcsettings"]["walletpassphrase"]=$rpc_walletpassphrase;
+		$this->coins[$coins_name]["rpcsettings"]["walletpassphrase_timeout"]=$rpc_walletpassphrase_timeout;
 	}
 }
 

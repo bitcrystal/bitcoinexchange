@@ -28,6 +28,8 @@ if(!$login_attempts) {
 $myusername = security($_POST['username']);
 $mypassword = security($_POST['password']);
 $myrepeat = security($_POST['repeat']);
+$email = security($_POST['email']);
+$email_repeat = security($_POST['email_repeat']);
 $form_action = security($_POST['action']);
 if($form_action=="login") {
    $_SESSION['login_attempts'] = $login_attempts + 1;
@@ -90,6 +92,21 @@ if($form_action=="register") {
                $return_error = "Password must be between 3 and 30 characters.";
 			   $_SESSION['user_time'] = 0;
             }
+			if($email) {
+				if($email!=$email_repeat)
+				{
+					$return_error = "Email did not match";
+				}
+				$SQL = "SELECT * FROM users WHERE email='$email'";
+				$result=mysql_query($SQL);
+				$num_rows = mysql_num_rows($result);
+				if($num_rows==1) {
+                     $return_error = "Email already taken.";
+					 $_SESSION['user_time'] = 0;
+				}
+			} else {
+				$return_error = "No Email was entered.";
+			}
             if($return_error == "") {
                if($db_found) {
                   $mypassword = md5($mypassword);
@@ -100,7 +117,7 @@ if($form_action=="register") {
                      $return_error = "Username already taken.";
 					 $_SESSION['user_time'] = 0;
                   } else {
-                     if(!mysql_query("INSERT INTO users (id,date,ip,username,password) VALUES ('','$date','$ip','$myusername','$mypassword')")){
+                     if(!mysql_query("INSERT INTO users (id,date,ip,username,password,email) VALUES ('','$date','$ip','$myusername','$mypassword', '$email')")){
                         $return_error = "System error.";
 						$_SESSION['user_time'] = 0;
                      } else {
@@ -368,6 +385,10 @@ if($form_action=="register") {
                   <td align="right"><input type="password" name="password" placeholder="Password" style="width: 100%;" required></td>
                </tr><tr>
                   <td align="right"><input type="password" name="repeat" placeholder="Repeat Password" style="width: 100%;" required></td>
+			   </tr><tr>
+                  <td align="right"><input type="text" name="email" placeholder="Email" style="width: 100%;" required></td>
+               </tr><tr>
+                  <td align="right"><input type="text" name="email_repeat" placeholder="Repeat Email" style="width: 100%;" required></td>
                </tr><tr>
                   <td align="right"><input type="submit" name="submit" class="button" value="Register"></td>
                </tr>
