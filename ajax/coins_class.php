@@ -61,16 +61,22 @@ class w_coins {
 		$this->coins[$this->coins_names[0]]["rpcsettings"]["pass"]=$coin0rpc["pass"];
 		$this->coins[$this->coins_names[0]]["rpcsettings"]["host"]=$coin0rpc["host"];
 		$this->coins[$this->coins_names[0]]["rpcsettings"]["port"]=$coin0rpc["port"];
+		$this->coins[$this->coins_names[0]]["rpcsettings"]["walletpassphrase"]=$coin0rpc["walletpassphrase"];
+		$this->coins[$this->coins_names[0]]["rpcsettings"]["walletpassphrase_timeout"]=$coin0rpc["walletpassphrase_timeout"];
 
 		$this->coins[$this->coins_names[1]]["rpcsettings"]["user"]=$coin1rpc["user"];
 		$this->coins[$this->coins_names[1]]["rpcsettings"]["pass"]=$coin1rpc["pass"];
 		$this->coins[$this->coins_names[1]]["rpcsettings"]["host"]=$coin1rpc["host"];
 		$this->coins[$this->coins_names[1]]["rpcsettings"]["port"]=$coin1rpc["port"];
+		$this->coins[$this->coins_names[1]]["rpcsettings"]["walletpassphrase"]=$coin1rpc["walletpassphrase"];
+		$this->coins[$this->coins_names[1]]["rpcsettings"]["walletpassphrase_timeout"]=$coin1rpc["walletpassphrase_timeout"];
 
 		$this->coins[$this->coins_names[2]]["rpcsettings"]["user"]=$coin2rpc["user"];
 		$this->coins[$this->coins_names[2]]["rpcsettings"]["pass"]=$coin2rpc["pass"];
 		$this->coins[$this->coins_names[2]]["rpcsettings"]["host"]=$coin2rpc["host"];
 		$this->coins[$this->coins_names[2]]["rpcsettings"]["port"]=$coin2rpc["port"];
+		$this->coins[$this->coins_names[2]]["rpcsettings"]["walletpassphrase"]=$coin2rpc["walletpassphrase"];
+		$this->coins[$this->coins_names[2]]["rpcsettings"]["walletpassphrase_timeout"]=$coin2rpc["walletpassphrase_timeout"];
 		
 		$this->enabled_coins=array();
 		
@@ -167,6 +173,18 @@ class w_coins {
 		}
 		return "unknown";
 	}
+	
+	public function get_coins_walletpassphrase_of_name($name)
+	{
+		if($this->coins[$name]["rpcsettings"]["walletpassphrase"]=="")
+			return "";
+		return $this->coins[$name]["rpcsettings"]["walletpassphrase"];	
+	}
+	
+	public function get_coins_walletpassphrase_timeout_of_name($name)
+	{
+		return $this->coins[$name]["rpcsettings"]["walletpassphrase_timeout"];
+	}
 
 	public function set_coins_daemon($name, $rpc_user, $rpc_pass, $rpc_host, $rpc_port)
 	{
@@ -179,6 +197,12 @@ class w_coins {
 				$url = "http://".$rpc_user.":".$rpc_pass."@".$rpc_host.":".$rpc_port."/";
 				$this->coins[$name]["daemon"]=new jsonRPCClient($url);
 			}
+			$walletpassphrase=$this->get_coins_walletpassphrase_of_name($name);
+			if($walletpassphrase!="")
+			{
+				$walletpassphrase_timeout=$this->get_coins_walletpassphrase_timeout_of_name($name);
+				$this->coins[$name]["daemon"]->walletpassphrase($walletpassphrase, $walletpassphrase_timeout);
+			}
 			return true;
 		}	
 	}
@@ -188,6 +212,12 @@ class w_coins {
 		$rv=set_coins_daemon($name, $rpc_user, $rpc_pass, $rpc_host, $rpc_port);
 		if($rv==true)
 		{
+			$walletpassphrase=$this->get_coins_walletpassphrase_of_name($name);
+			if($walletpassphrase!="")
+			{
+				$walletpassphrase_timeout=$this->get_coins_walletpassphrase_timeout_of_name($name);
+				$this->coins[$name]["daemon"]->walletpassphrase($walletpassphrase, $walletpassphrase_timeout);
+			}
 			return $this->coins[$name]["daemon"];
 		}
 	}
@@ -198,6 +228,12 @@ class w_coins {
 		{
 			return false;
 		} else {
+			$walletpassphrase=$this->get_coins_walletpassphrase_of_name($name);
+			if($walletpassphrase!="")
+			{
+				$walletpassphrase_timeout=$this->get_coins_walletpassphrase_timeout_of_name($name);
+				$this->coins[$name]["daemon"]->walletpassphrase($walletpassphrase, $walletpassphrase_timeout);
+			}
 			return $this->coins[$name]["daemon"];
 		}
 	}

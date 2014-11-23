@@ -25,10 +25,76 @@ $login_attempts = $_SESSION['login_attempts'];
 if(!$login_attempts) {
    $_SESSION['login_attempts'] = 0;
 }
+if(isset($_GET['recover']) && isset($_GET['username']) && isset($_GET['id']) )
+{
+	if($_GET['recover']==1)
+	{
+		$recover = $_GET['recover'];
+		$username = $_GET['username'];
+		$id = $_GET['id'];
+		$sql = "SELECT * FROM users WHERE username='$username'";
+        $result = mysql_query($sql);
+		if($result)
+		{
+			$count = mysql_num_rows($result);
+			if($count == 1)
+			{
+				$Row = mysql_fetch_assoc($result);
+				$my_id=md5(md5($Row['email'].$Row['username'].$Row['password']));
+				if($my_id==$id)
+				{
+					$sql = "UPDATE users SET password = '".md5($Row['password'])."' WHERE username = '".$Row['username']."';";
+					if(mysql_query($sql))
+					{
+						mail($Row['email'], "New Password for Werris/Zelles Exchange Service","The new password for the user ".$Row['username']." is ".$Row['password']);
+						$return_error = "Email with the new password was send!";
+					} else {
+						$return_error = "Cannot password recover!";
+					}
+				}
+			} else {
+				$return_error = "Cannot password recover!";
+			}
+			
+		} else {
+			$return_error = "Cannot password recover!";
+		}
+		
+	} else {
+		$return_error = "Cannot password recover!";
+	}
+}
+
 $myusername = security($_POST['username']);
 $mypassword = security($_POST['password']);
 $myrepeat = security($_POST['repeat']);
+$email = security($_POST['email']);
+$email_repeat = security($_POST['email_repeat']);
 $form_action = security($_POST['action']);
+if($form_action=="forgot") {
+	if($email) {
+		$sql = "SELECT * FROM users WHERE email='$email'";
+        $result = mysql_query($sql);
+		if($result)
+		{
+			$count = mysql_num_rows($result);
+			if($count == 1)
+			{
+				$Row = mysql_fetch_assoc($result);
+				$url = get_current_url();
+				mail($email, "Passwort Recover for Werris/Zelles Exchange Service","Please copy the url in your browser<br/>\n ".$url."?recover=1&username=".$Row['username']."&id=".md5(md5($email.$Row['username'].$Row['password'])));
+				$return_error = "Email with instructions details to the new password was sent to ".$email."!";
+			} else {
+				$return_error = "No Email found!";
+			}
+		} else {
+			$return_error = "System error";
+		}		
+	} else {
+		$return_error = "No Email was entered.";
+	}
+}
+
 if($form_action=="login") {
    $_SESSION['login_attempts'] = $login_attempts + 1;
    if($login_attempts<=5) {
@@ -90,6 +156,21 @@ if($form_action=="register") {
                $return_error = "Password must be between 3 and 30 characters.";
 			   $_SESSION['user_time'] = 0;
             }
+			if($email) {
+				if($email!=$email_repeat)
+				{
+					$return_error = "Email did not match";
+				}
+				$SQL = "SELECT * FROM users WHERE email='$email'";
+				$result=mysql_query($SQL);
+				$num_rows = mysql_num_rows($result);
+				if($num_rows==1) {
+                     $return_error = "Email already taken.";
+					 $_SESSION['user_time'] = 0;
+				}
+			} else {
+				$return_error = "No Email was entered.";
+			}
             if($return_error == "") {
                if($db_found) {
                   $mypassword = md5($mypassword);
@@ -100,7 +181,7 @@ if($form_action=="register") {
                      $return_error = "Username already taken.";
 					 $_SESSION['user_time'] = 0;
                   } else {
-                     if(!mysql_query("INSERT INTO users (id,date,ip,username,password) VALUES ('','$date','$ip','$myusername','$mypassword')")){
+                     if(!mysql_query("INSERT INTO users (id,date,ip,username,password,email) VALUES ('','$date','$ip','$myusername','$mypassword', '$email')")){
                         $return_error = "System error.";
 						$_SESSION['user_time'] = 0;
                      } else {
@@ -233,7 +314,7 @@ if($form_action=="register") {
                   <td align=\"right\"><input type=\"text\" name=\"username\" placeholder=\"Username\" value=\"$myusername\" style=\"width: 110px;\" required autofocus></td>
                   <td align=\"right\"><input type=\"password\" name=\"password\" placeholder=\"Password\" style=\"width: 110px;\" required></td>
                   <td align=\"right\"><input type=\"submit\" name=\"submit\" class=\"button\" value=\"Login\"></td>
-               </tr>
+			   </tr>
             </table>
             </form>
 			";
@@ -368,8 +449,27 @@ if($form_action=="register") {
                   <td align="right"><input type="password" name="password" placeholder="Password" style="width: 100%;" required></td>
                </tr><tr>
                   <td align="right"><input type="password" name="repeat" placeholder="Repeat Password" style="width: 100%;" required></td>
+			   </tr><tr>
+                  <td align="right"><input type="text" name="email" placeholder="Email" style="width: 100%;" required></td>
+               </tr><tr>
+                  <td align="right"><input type="text" name="email_repeat" placeholder="Repeat Email" style="width: 100%;" required></td>
                </tr><tr>
                   <td align="right"><input type="submit" name="submit" class="button" value="Register"></td>
+               </tr>
+            </table>
+            </form>
+            </div>
+			<p></p>
+			<div align="left" class="right-panel">
+            <form action="index.php" method="POST">
+            <input type="hidden" name="action" value="forgot">
+            <table style="width: 100%;">
+               <tr>
+                  <td align="left"><b>Forgot Username or Password?</b></td>
+               </tr><tr>
+                  <td align="right"><input type="text" name="email" placeholder="Email" style="width: 100%;" required></td>
+               </tr><tr>
+                  <td align="right"><input type="submit" name="submit" class="button" value="Recover"></td>
                </tr>
             </table>
             </form>

@@ -305,7 +305,8 @@ if($PST_Order_Action=="sell") {
             <table>
                <tr>
                   <td><a href="home.php">Home</a></td>
-				<td style="padding-left: 5px;"><a href="transactions.php">Transactions</a></td>
+				  <td style="padding-left: 5px;"><a href="market.php">Market</a></td>
+				  <td style="padding-left: 5px;"><a href="transactions.php">Transactions</a></td>
                   <td style="padding-left: 5px;"><a href="account.php">Account</a></td>
                   <td style="padding-left: 5px;"><a href="logout.php">Logout</a></td>
                </tr>

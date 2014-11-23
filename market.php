@@ -1,6 +1,6 @@
 <?php
 session_start();
-error_reporting(0);
+error_reporting(E_ALL);
 require_once'jsonRPCClient.php';
 require_once'auth.php';
 if($Logged_In!==7) {
@@ -8,19 +8,32 @@ if($Logged_In!==7) {
 }
 $coin_selecter = security($_GET['c']);
 if($coin_selecter) {
+	//echo "alter<br/>";
    if($coin_selecter==$my_coins->coins_names_prefix[0]) { $_SESSION['trade_coin'] = $my_coins->coins_names_prefix[0]; }
    if($coin_selecter==$my_coins->coins_names_prefix[2]) { $_SESSION['trade_coin'] = $my_coins->coins_names_prefix[2]; }
    header("Location: market.php");
 }
 $Coin_A_Balance = userbalance($user_session,$BTC);
 $Coin_B_Balance = userbalance($user_session,$BTCRYX);
-
 $trader = security($_POST['order-trader']);
+$buyer = security($_POST['order-buyer']);
 $trade_action = security($_POST['order-action']);
-$trade_action_2 = security($_POST['order-action']);
+$trade_action_2 = security($_POST['trade-action']);
 $trade_amount = security($_POST['order-amount']);
 $trade_rate = security($_POST['order-rate']);
-if($trade_action_2=="trade_buy"){
+$trade_total = security($_POST['order-total']);
+/*echo $Coin_A_Balance."<br/>";
+echo $Coin_B_Balance."<br/>";
+echo $trader."<br/>";
+echo $trade_action."<br/>";
+echo $trade_action_2."<br/>";
+echo $trade_amount."<br/>";
+echo $trade_rate."<br/>";
+echo $trade_total."<br/>";
+echo $BTC."<br/>";
+echo $buyer."<br/>";*/
+if($trade_action_2=="tradebuy"){
+	//echo "hallo leute<br/>";
 	$my_action="sell";
 	$my_action_2="buy";
 	$trade_id=0;
@@ -28,25 +41,38 @@ if($trade_action_2=="trade_buy"){
 	if($trade_amount) {
 		if($trade_rate) {
 			$trade_error=false;
-			$Query = mysql_query("SELECT * FROM ".$my_action."_orderbook WHERE username = '$trader' AND want='$BTC' AND amount = '$trade_amount' AND action='$my_action' AND processed = '$processed' LIMIT 1;");
-            if(!$Query)
+			if($trader!=$user_session)
 			{
-				 $Trade_Message = 'Could, Trade matching not done.';
-				 $trade_error=true;
-			} else {
-				$Query = mysql_query("UPDATE ".$my_action."_orderbook SET processed = '4' WHERE username = '$trader' AND want='$BTC' AND amount = '$trade_amount' AND action='$my_action' AND processed = '$processed' LIMIT 1;");
+				$Trade_Message = 'Could, Trade matching not done.';
+				$trade_error=true;
+			}
+			if(!$trade_error)
+			{
+				$sql = "SELECT * FROM ".$my_action."_orderbook WHERE username = '$trader' AND want='$BTC' AND amount = '$trade_amount' AND action='$my_action' AND processed = '$processed' LIMIT 1";
+				//echo $sql."<br/>";
+				$Query = mysql_query($sql);
 				if(!$Query)
 				{
-					$Trade_Message = 'Could, Trade matching not done.';
+					$Trade_Message = 'Could, Trade matching not done. 1';
 					$trade_error=true;
+				} else {
+					$sql = "UPDATE ".$my_action."_orderbook SET processed = '4' WHERE username = '$trader' AND want='$BTC' AND amount = '$trade_amount' AND action='$my_action' AND processed = '$processed' LIMIT 1;";
+					//echo $sql."<br/>";
+					$Query_update = mysql_query($sql);
+					if(!$Query_update)
+					{
+						$Trade_Message = 'Could, Trade matching not done. 2';
+						$trade_error=true;
+					}
 				}
 			}
+			
 			if(!$trade_error)
 			{
 				$nums = mysql_num_rows($Query);
 				if($nums<=0)
 				{
-					$Trade_Message = 'Could, Trade matching not done.';
+					$Trade_Message = 'Could, Trade matching not done. 3';
 					$trade_error=true;
 				}
 			
@@ -61,15 +87,10 @@ if($trade_action_2=="trade_buy"){
 						$username = $Row['username'];
 						$amount = $Row['amount'];
 						$rate = $Row['rate'];
-						if($trader!=$username)
-						{
-							$id=false;
-							break;
-						}
 					}
 					
 					if(!$id) {
-						$Trade_Message = 'Could, Trade matching not done.';
+						$Trade_Message = 'Could, Trade matching not done. 4';
 						$trade_error=true;
 					}
 					
@@ -89,45 +110,50 @@ if($trade_action_2=="trade_buy"){
 								{
 									$handler=$user_session;
 									$Query = "INSERT INTO ordersfilled (date, ip, username, trader, oid, action, want, amount, rate, total, processed) VALUES ('$date', '$ip', '$handler', '$trader', '$trade_id', '$my_action_2', '$BTC', '$amount', '$rate', '$totalamount', '$processed');";
+									//echo $Query."<br/>";
 									if(!mysql_query($Query)) {
-										$Trade_Message = 'Could, Trade matching not done.';
+										$Trade_Message = 'Could, Trade matching not done. 5';
 										$trade_error=true;
 									}
 									$Trade_Message = "Trade is complete!";
 								} else {
-									$Trade_Message = 'Could, Trade matching not done.';
+									$Trade_Message = 'Could, Trade matching not done. 6';
 									$trade_error=true;
 								}
 							} else {
-								$Trade_Message = 'Could, Trade matching not done.';
+								$Trade_Message = 'Could, Trade matching not done. 7';
 								$trade_error=true;
 							}
 							
 						} else {
-							$Trade_Message = 'Could, Trade matching not done.';
+							$Trade_Message = "You don't have enough ".$BTCS."'s to complete the trade!";
 							$trade_error=true;
 						}
 					}
 				}
 			}
 		} else {
-			$Trade_Message = 'Could, Trade matching not done.';
+			$Trade_Message = 'Could, Trade matching not done. 9';
 			$trade_error=true;
 		}
 	} else {
-		$Trade_Message = 'Could, Trade matching not done.';
+		$Trade_Message = 'Could, Trade matching not done. 10';
 		$trade_error=true;
 	}
 	if($trade_error)
 	{
-		mysql_query("UPDATE ".$my_action."_orderbook SET processed = '$processed' WHERE username = '$trader' AND want='$BTC' AND amount = '$trade_amount' AND action='$my_action' AND processed = '4' LIMIT 1;");
+		$sql = "UPDATE ".$my_action."_orderbook SET processed = '$processed' WHERE username = '$trader' AND want='$BTC' AND amount = '$trade_amount' AND action='$my_action' AND processed = '4' LIMIT 1;";
+		//echo $sql."<br/>";
+		mysql_query($sql);
 	} else {
-		mysql_query("DELETE FROM ".$my_action."_orderbook WHERE username = '$trader' AND want='$BTC' AND amount = '$trade_amount' AND action='$my_action' AND processed = '4' LIMIT 1;");
+		$sql = "DELETE FROM ".$my_action."_orderbook WHERE username = '$trader' AND want='$BTC' AND amount = '$trade_amount' AND action='$my_action' AND processed = '4' LIMIT 1;";
+		//echo $sql."<br/>";
+		mysql_query($sql);
 	}
-	header("Location: market.php");
+	//header("Location: market.php");
 }
 
-if($trade_action_2=="trade_sell"){
+if($trade_action_2=="tradesell"){
 	$my_action="buy";
 	$my_action_2="sell";
 	$trade_id=1;
@@ -135,23 +161,27 @@ if($trade_action_2=="trade_sell"){
 	if($trade_amount) {
 		if($trade_rate) {
 			$trade_error=false;
-			$Query = mysql_query("SELECT * FROM ".$my_action."_orderbook WHERE username = '$trader' AND want='$BTC' AND amount = '$trade_amount' AND action='$my_action' AND processed = '$processed' LIMIT 1;");
+			$sql = "SELECT * FROM ".$my_action."_orderbook WHERE username = '$buyer' AND want='$BTC' AND amount = '$trade_amount' AND action='$my_action' AND processed = '$processed' LIMIT 1;";
+			//echo $sql."<br/>";
+			$Query = mysql_query($sql);
             if(!$Query)
 			{
-				 $Trade_Message = 'Could, Trade matching not done.';
+				 $Trade_Message = 'Could, Trade matching not done. 1';
 				 $trade_error=true;
 			} else {
-				$Query = mysql_query("UPDATE ".$my_action."_orderbook SET processed = '4' WHERE username = '$trader' AND want='$BTC' AND amount = '$trade_amount' AND action='$my_action' AND processed = '$processed' LIMIT 1;");
-				if(!$Query)
+				$sql = "UPDATE ".$my_action."_orderbook SET processed = '4' WHERE username = '$buyer' AND want='$BTC' AND amount = '$trade_amount' AND action='$my_action' AND processed = '$processed' LIMIT 1;";
+				//echo $sql."<br/>";
+				$Query_update = mysql_query($sql);
+				if(!$Query_update)
 				{
-					$Trade_Message = 'Could, Trade matching not done.';
+					$Trade_Message = 'Could, Trade matching not done. 2';
 					$trade_error=true;
 				}
 			}
 			
 			if($trader!=$user_session)
 			{
-				$Trade_Message = 'Could, Trade matching not done.';
+				$Trade_Message = 'Could, Trade matching not done. 3';
 				$trade_error=true;
 			}
 			
@@ -160,7 +190,7 @@ if($trade_action_2=="trade_sell"){
 				$nums = mysql_num_rows($Query);
 				if($nums<=0)
 				{
-					$Trade_Message = 'Could, Trade matching not done.';
+					$Trade_Message = 'Could, Trade matching not done. 4';
 					$trade_error=true;
 				}
 			
@@ -175,10 +205,15 @@ if($trade_action_2=="trade_sell"){
 						$username = $Row['username'];
 						$amount = $Row['amount'];
 						$rate = $Row['rate'];
+						if($username!=$buyer)
+						{
+							$id = false;
+							break;
+						}
 					}
 					
 					if(!$id) {
-						$Trade_Message = 'Could, Trade matching not done.';
+						$Trade_Message = 'Could, Trade matching not done. 5';
 						$trade_error=true;
 					}
 					
@@ -196,44 +231,49 @@ if($trade_action_2=="trade_sell"){
 								$result = plusfunds($user_session, $BTC, $totalamount);
 								if($result == "success")
 								{
-									$handler=$username;
+									$handler=$buyer;
 									$Query = "INSERT INTO ordersfilled (date, ip, username, trader, oid, action, want, amount, rate, total, processed) VALUES ('$date', '$ip', '$handler', '$trader', '$trade_id', '$my_action_2', '$BTC', '$amount', '$rate', '$totalamount', '$processed');";
+									//echo $Query."<br/>";
 									if(!mysql_query($Query)) {
-										$Trade_Message = 'Could, Trade matching not done.';
+										$Trade_Message = 'Could, Trade matching not done. 6';
 										$trade_error=true;
 									}
 									$Trade_Message = "Trade is complete!";
 								} else {
-									$Trade_Message = 'Could, Trade matching not done.';
+									$Trade_Message = 'Could, Trade matching not done. 7';
 									$trade_error=true;
 								}
 							} else {
-								$Trade_Message = 'Could, Trade matching not done.';
+								$Trade_Message = 'Could, Trade matching not done. 8';
 								$trade_error=true;
 							}
 							
 						} else {
-							$Trade_Message = 'Could, Trade matching not done.';
+							$Trade_Message = "You don't have enough ".$BTCRYXS."'s to complete that trade!";
 							$trade_error=true;
 						}
 					}
 				}
 			}
 		} else {
-			$Trade_Message = 'Could, Trade matching not done.';
+			$Trade_Message = 'Could, Trade matching not done. 10';
 			$trade_error=true;
 		}
 	} else {
-		$Trade_Message = 'Could, Trade matching not done.';
+		$Trade_Message = 'Could, Trade matching not done. 11';
 		$trade_error=true;
 	}
 	if($trade_error)
 	{
-		mysql_query("UPDATE ".$my_action."_orderbook SET processed = '$processed' WHERE username = '$trader' AND want='$BTC' AND amount = '$trade_amount' AND action='$my_action' AND processed = '4' LIMIT 1;");
+		$sql = "UPDATE ".$my_action."_orderbook SET processed = '$processed' WHERE username = '$buyer' AND want='$BTC' AND amount = '$trade_amount' AND action='$my_action' AND processed = '4' LIMIT 1;";
+		//echo $sql."<br/>";
+		mysql_query($sql);
 	} else {
-		mysql_query("DELETE FROM ".$my_action."_orderbook WHERE username = '$trader' AND want='$BTC' AND amount = '$trade_amount' AND action='$my_action' AND processed = '4' LIMIT 1;");
+		$sql = "DELETE FROM ".$my_action."_orderbook WHERE username = '$buyer' AND want='$BTC' AND amount = '$trade_amount' AND action='$my_action' AND processed = '4' LIMIT 1;";
+		//echo $sql."<br/>";
+		mysql_query($sql);
 	}
-	header("Location: market.php");
+	//header("Location: market.php");
 }
 
 $sell_orderbook=array();
@@ -253,15 +293,15 @@ $rate = false;
 $sell_orderbook["message"]="";
 $buy_orderbook["message"]="";
 
-$Query = mysql_query("SELECT * FROM sell_orderbook WHERE username != '$user_session' AND want='$BTC';");
+$Query = mysql_query("SELECT * FROM sell_orderbook WHERE username != '$user_session' AND want='$BTC' AND processed = '1';");
 if(!$Query)
 {
-	$sell_orderbook["message"]="No sell orders for you!";
+	$sell_orderbook["message"]="No buy orders for you!";
 }
 
 if(mysql_num_rows($Query) <= 0)
 {
-	$sell_orderbook["message"]="No sell orders for you!";
+	$sell_orderbook["message"]="No buy orders for you!";
 }
 
 $i = 0;
@@ -278,15 +318,15 @@ while($Row = mysql_fetch_assoc($Query)) {
 }
 $count_sell_orderbook = $i;
 
-$Query = mysql_query("SELECT * FROM buy_orderbook WHERE username != '$user_session' AND want='$BTC';");
+$Query = mysql_query("SELECT * FROM buy_orderbook WHERE username != '$user_session' AND want='$BTC' AND processed = '1';");
 if(!$Query)
 {
-	$buy_orderbook["message"]="No buy orders for you!";
+	$buy_orderbook["message"]="No sell orders for you!";
 }
 
 if(mysql_num_rows($Query) <= 0)
 {
-	$buy_orderbook["message"]="No buy orders for you!";
+	$buy_orderbook["message"]="No sell orders for you!";
 }
 
 $i = 0;
@@ -378,6 +418,11 @@ $count_buy_orderbook = $i;
 		c.selectedIndex = index;
 		d.selectedIndex = index;
       }
+	  
+	  function changeTradeAction(text) {
+		var e = document.getElementById('tradeActionD');
+		e.value = text;
+      }
    </script>
 </head>
 <body title="[zelles]">
@@ -407,7 +452,7 @@ $count_buy_orderbook = $i;
    </table>
    </div>
    <p></p>
-   <?php if($Trade_Message) { echo '<div align="center" class="error-msg" nowrap>'.$Trade_Message.'</div><p></p>'; } ?>
+   <?php if($Trade_Message) { echo '<div align="center" class="error-msg" nowrap>'.$Trade_Message.'</div><p></p>'; } sleep(3); header('Location: market.php'); ?>
    <table class="right-panel-table">
       <tr>
          <td valign="top" align="left" class="right-panel-left">
@@ -436,14 +481,14 @@ $count_buy_orderbook = $i;
             </table>
             </div>
             <form action="market.php" method="POST">
-            <input type="hidden" name="order-action" value="buy">
-			<input type="hidden" name="trade-action" value="trade_buy">
+            <input name="order-action" type="hidden" value="buy">
+			<input id="tradeAction" name="trade-action" type="hidden" value="tradebuy">
             <table>
                <tr>
                   <td colspan="3" style="height: 10px;"></td>
 			   </tr><tr>
                   <td align="right" nowrap><b>Seller</b></td>
-                  <td align="right" nowrap><select name="order-trader" id="buy-seller" size="1" onchange="changeIndex('buy-seller');"><?php
+                  <td align="right" nowrap><select id="buy-seller" name="order-trader" size="1" onchange="changeIndex('buy-seller');"><?php
 						if($count_sell_orderbook > 0)
 						{
 							for($i = 0; $i < $count_sell_orderbook; $i++)
@@ -456,7 +501,7 @@ $count_buy_orderbook = $i;
 				  ?></select></td>
                </tr><tr>
                   <td align="right" nowrap><b>Quantity</b></td>
-                  <td align="right" nowrap><select name="order-amount" id="buy-quantity" size="1" onchange="changeIndex('buy-quantity');"><?php
+                  <td align="right" nowrap><select id="buy-quantity" name="order-amount" size="1" onchange="changeIndex('buy-quantity');"><?php
 						if($count_sell_orderbook > 0)
 						{
 							for($i = 0; $i < $count_sell_orderbook; $i++)
@@ -470,7 +515,7 @@ $count_buy_orderbook = $i;
                   <td align="left" nowrap><?php echo $BTCRYX; ?></td>
                </tr><tr>
                   <td align="right" nowrap><b>Rate</b></td>
-                  <td align="right" nowrap><select name="order-rate" id="buy-rate" size="1" onchange="changeIndex('buy-rate');"><?php
+                  <td align="right" nowrap><select id="buy-rate" name="order-rate" size="1" onchange="changeIndex('buy-rate');"><?php
 						if($count_sell_orderbook > 0)
 						{
 							for($i = 0; $i < $count_sell_orderbook; $i++)
@@ -484,7 +529,7 @@ $count_buy_orderbook = $i;
                   <td align="left" nowrap><?php echo $BTC; ?></td>
                </tr><tr>
                   <td align="right" nowrap><b>Sub-total</b></td>
-                  <td align="right" nowrap><select name="order-total" id="buy-subtotal" size="1" onchange="changeIndex('buy-rate');"><?php
+                  <td align="right" nowrap><select id="buy-subtotal" name="order-total" size="1" onchange="changeIndex('buy-rate');"><?php
 						if($count_sell_orderbook > 0)
 						{
 							for($i = 0; $i < $count_sell_orderbook; $i++)
@@ -519,14 +564,14 @@ $count_buy_orderbook = $i;
             </div>
             <form action="market.php" method="POST">
                   <input type="hidden" name="order-action" value="sell">
-				  <input type="hidden" name="trade-action" value="trade_sell">
+				  <input type="hidden" id="tradeAction" name="trade-action" value="tradesell">
 				  <input type="hidden" name="order-trader" value="<?php echo $user_session ?>">
             <table>
                <tr>
                   <td colspan="3" style="height: 10px;"></td>
 			   </tr><tr>
                   <td align="right" nowrap><b>Buyer</b></td>
-                  <td align="right" nowrap><select id="buy-seller" size="1" onchange="changeIndexBuy('sell-buyer');"><?php
+                  <td align="right" nowrap><select id="buy-seller" name="order-buyer" size="1" onchange="changeIndexBuy('sell-buyer');"><?php
 						if($count_buy_orderbook > 0)
 						{
 							for($i = 0; $i < $count_buy_orderbook; $i++)
@@ -539,7 +584,7 @@ $count_buy_orderbook = $i;
 				  ?></select></td>
                </tr><tr>
                   <td align="right" nowrap><b>Quantity</b></td>
-                  <td align="right" nowrap><select name="order-amount" id="sell-quantity" size="1" onchange="changeIndexBuy('sell-quantity');"><?php
+                  <td align="right" nowrap><select id="sell-quantity" name="order-amount" size="1" onchange="changeIndexBuy('sell-quantity');"><?php
 						if($count_buy_orderbook > 0)
 						{
 							for($i = 0; $i < $count_buy_orderbook; $i++)
@@ -553,7 +598,7 @@ $count_buy_orderbook = $i;
                   <td align="left" nowrap><?php echo $BTCRYX; ?></td>
                </tr><tr>
                   <td align="right" nowrap><b>Rate</b></td>
-                  <td align="right" nowrap><select name="order-rate" id="sell-rate" size="1" onchange="changeIndexBuy('sell-rate');"><?php
+                  <td align="right" nowrap><select id="sell-rate" name="order-rate" size="1" onchange="changeIndexBuy('sell-rate');"><?php
 						if($count_buy_orderbook > 0)
 						{
 							for($i = 0; $i < $count_buy_orderbook; $i++)
@@ -567,7 +612,7 @@ $count_buy_orderbook = $i;
                   <td align="left" nowrap><?php echo $BTC; ?></td>
                </tr><tr>
                   <td align="right" nowrap><b>Sub-total</b></td>
-                  <td align="right" nowrap><select name="order-total" id="sell-subtotal" size="1" onchange="changeIndexBuy('sell-subtotal');"><?php
+                  <td align="right" nowrap><select id="sell-subtotal" name="order-total" size="1" onchange="changeIndexBuy('sell-subtotal');"><?php
 						if($count_buy_orderbook > 0)
 						{
 							for($i = 0; $i < $count_buy_orderbook; $i++)

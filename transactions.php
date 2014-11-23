@@ -71,6 +71,7 @@ if($count_transactions != 0)
             <table>
                <tr>
                   <td><a href="home.php">Home</a></td>
+				  <td style="padding-left: 5px;"><a href="market.php">Market</a></td>
 				  <td style="padding-left: 5px;"><a href="transactions.php">Transactions</a></td>
                   <td style="padding-left: 5px;"><a href="account.php">Account</a></td>
                   <td style="padding-left: 5px;"><a href="logout.php">Logout</a></td>
@@ -100,7 +101,16 @@ if($count_transactions != 0)
                    <?php
 						for($i = 0; $i < $count_transactions; $i++)
 						{
-							echo '<td><div align="center" class="pending-right" nowrap<b><font color="red">'.$transactions_message[$i].'</b></font></div><p></p></td><td></td>';
+							echo "<tr></tr><td><table>";
+							if($i+2<$count_transactions) {
+								echo '<td><div align="center" class="my-pending-right" nowrap<b><font color="red">'.$transactions_message[$i].'</b></font></div><p></p></td><td></td>';
+								echo '<td><div align="center" class="my-pending-right" nowrap<b><font color="red">'.$transactions_message[$i+1].'</b></font></div><p></p></td><td></td>';
+								echo '<td><div align="center" class="my-pending-right" nowrap<b><font color="red">'.$transactions_message[$i+2].'</b></font></div><p></p></td><td></td>';
+								$i+=2;
+							} else {
+								echo '<td><div align="center" class="my-pending-right" nowrap<b><font color="red">'.$transactions_message[$i].'</b></font></div><p></p></td><td></td>';
+							}
+							echo "</table></td><tr></tr>";
 						}
 					?>
             </table>
