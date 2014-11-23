@@ -29,9 +29,9 @@ if($count!=0) {
                <tr>
                   <td colspan="3" align="left" style="font-weight: bold; padding: 2px;" nowrap>Sell Orders</td>
                </tr><tr>
-                  <td colspan="3" align="right" style="padding: 2px;" nowrap>Total '.$my_coins->coins_names_prefix[2].': '.$cncvalue.'</td>
+                  <td colspan="3" align="right" style="padding: 2px;" nowrap>Total '.$my_coins->coins_names_prefix[1].': '.$cncvalue.'</td>
                </tr><tr>
-                  <td align="left" style="font-weight: bold; padding: 1px;" nowrap>Amount ('.$my_coins->coins_names_prefix[2].')</td>
+                  <td align="left" style="font-weight: bold; padding: 1px;" nowrap>Amount ('.$my_coins->coins_names_prefix[1].')</td>
                   <td align="left" style="font-weight: bold; padding: 1px; padding-left: 10px;" nowrap>Rate ('.$my_coins->coins_names_prefix[0].')</td>
                   <td align="left" style="font-weight: bold; padding: 1px; padding-left: 10px;" nowrap>Total ('.$my_coins->coins_names_prefix[0].')</td>
                </tr>'.$Sells_td.'</table>';

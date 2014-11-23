@@ -40,9 +40,9 @@ $cncvolume = satoshitrim(satoshitize($buy_amounttotal));
 echo '<table>
          <tr>
             <td nowrap>'.$my_coins->coins_names_prefix[1].'/'.$my_coins->coins_names_prefix[0].'</td>
-            <td style="padding-left: 10px;" nowrap>Volume '.$btevolume.' / '.$cncvalue.' '.$my_coins->coins_names_prefix[1].'</td>
+            <td style="padding-left: 10px;" nowrap>Volume '.$btevolume.' / '.$btevalue.' '.$my_coins->coins_names_prefix[0].'</td>
             <td style="padding-left: 30px;" nowrap>'.$my_coins->coins_names_prefix[1].'/'.$my_coins->coins_names_prefix[2].'</td>
-            <td style="padding-left: 10px;" nowrap>Volume '.$cncvolume.' / '.$btevalue.' '.$my_coins->coins_names_prefix[1].'</td>
+            <td style="padding-left: 10px;" nowrap>Volume '.$cncvolume.' / '.$cncvalue.' '.$my_coins->coins_names_prefix[2].'</td>
          </tr>
       </table>';
 ?>
