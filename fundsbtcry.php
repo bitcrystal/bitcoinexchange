@@ -93,7 +93,7 @@ if($withdraw_withdraw=="withdraw") {
    <table style="width: 650px;">
       <tr>
          <td align="center" valign="top" style="padding: 5px;" nowrap>
-            <form action="fundscnc.php" method="POST">
+            <form action="fundsbtcry.php" method="POST">
             <input type="hidden" name="action" value="withdraw">
             <table>
                <tr>
@@ -120,13 +120,14 @@ if($withdraw_withdraw=="withdraw") {
                   </td>
                </tr><tr>
                   <td align="center" style="padding: 2px; font-weight: bold; color: #666666;" nowrap><?php echo $Bitcrystald_Account_Address; ?></td>
-               <tr><tr>
-                  <?php echo '<td align="left" style="padding: 2px; padding-left: 20px;">Deposits must have 6 confirmations to become active. There is a fee of '.$coins[$my_coins->coins_names[1]]["fee"].' '.$my_coins->coins_names[1].' to make a withraw.</td>'; ?>
+               </tr><tr>
+                  <?php echo '<td align="left" style="padding: 2px; padding-left: 20px;">Deposits must have 6 confirmations to become active. There is a fee of '.$my_coins->coins[$my_coins->coins_names[1]]["fee"].' '.$my_coins->coins_names[1].' to make a withraw.</td>'; ?>
                </tr>
             </table>
             </center>
          </td>
       </tr><tr>
+		 <td colspan="2" align="right" valign="top" style="font-weight: bold; padding: 5px;" nowrap><a href="savebtcry.php">Save to Wallet</a></td>
          <td colspan="2" align="right" valign="top" style="font-weight: bold; padding: 5px;" nowrap><a href="transactions.php">Transactions</a></td>
       </tr>
    </table>

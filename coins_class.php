@@ -248,11 +248,85 @@ class w_coins {
 		}
 	}
 
-	public function get_coins_balance($name, $user_session)
+	public function get_coins_balance_old($name, $user_session)
 	{
 		if($this->coins[$name]["enabled"]==false)
 			return "";
 		return userbalance($user_session,$this->get_coins_prefix_of_name($name));
+	}
+	
+	public function get_coins_balance($name, $account, $confirmations)
+	{
+		if($confirmations<=0)
+		{
+			return false;
+		}
+		$daemon = $this->get_coins_daemon($name);
+		$transactions = $daemon->listtransactions($account);
+		$money = 0;
+		foreach($transactions as $transaction) {
+			if($transaction['category']=="receive") {
+				if($confirmations<=$transaction['confirmations']) {
+					$amount = abs($transaction['amount']);
+					$money+=$amount;
+				} else {
+					return false;
+				}
+			} else if ($transaction['category']=="send") {
+				if($confirmations<=$transaction['confirmations']) {
+					$amount = abs($transaction['amount']);
+					$money -= $amount;
+				} else {
+					return false;
+				}
+			}
+         }
+		 return $money;
+	}
+	
+	public function set_coins_balance($name, $account, $account2, $amount)
+	{
+		$balance=$this->get_coins_balance($name, $account, 6);
+		$daemon = $this->get_coins_daemon($name);
+		if($balance==false)
+		{
+			return false;
+		}
+		if($balance<0)
+		{
+			return false;
+		}
+		if($amount<0)
+		{
+			return false;		
+		}
+		$diff=$amount-$balance;
+		if($diff==0)
+		{
+			return $balance;
+		}
+		if($diff<0)
+		{
+			$daemon->sendtoaddress($daemon->getaccountaddress($account2), abs($diff));
+			
+			$balance = $this->get_coins_balance($name, $account, 6);
+			while($balance == false)
+			{
+				$balance = $this->get_coins_balance($name, $account, 6);
+			}
+			return $balance;
+		}
+		else
+		{
+			$daemon->sendtoaddress($daemon->getaccountaddress($account), $diff);
+			$balance = $this->get_coins_balance($name, $account, 6);
+			while($balance == false)
+			{
+				$balance = $this->get_coins_balance($name, $account, 6);
+			}
+			return $balance;
+		}
+		return $balance;
 	}
 
 	public function get_coins_balance_from_prefix($prefix, $user_session)
