@@ -1,6 +1,5 @@
 <?php
 error_reporting(0);
-require_once('coins.php');
 echo '<div align="center" class="buy-sells">';
 $sql = "SELECT * FROM sell_orderbook WHERE want='".$my_coins->coins_names_prefix[2]."' and processed='1'";
 $result = mysql_query($sql);

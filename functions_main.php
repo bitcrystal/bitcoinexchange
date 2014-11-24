@@ -103,4 +103,12 @@ function get_current_url()
 {
 	return 'http'.(empty($_SERVER['HTTPS'])?'':'s').'://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
 }
+
+function get_root_path($file)
+{
+	$str = dirname(__FILE__);
+	$str = str_replace("ajax","",$str);
+	$str = $str . '/' . $file;
+	return $str;
+}
 ?>

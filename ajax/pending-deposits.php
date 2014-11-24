@@ -1,6 +1,5 @@
 <?php
 error_reporting(0);
-require_once('coins.php');
 if(!$user_session) {
    $do = "nothing";
 } else {

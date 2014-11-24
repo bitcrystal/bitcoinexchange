@@ -137,7 +137,16 @@ if($form_action=="login") {
    }
 }
 if($form_action=="register") {
-   $coo_coo="tootoo";
+   $FEEBEE_1=$my_coins->coins[$my_coins->coins_names[0]]['FEEBEE'];
+   $FEEBEE_2=$my_coins->coins[$my_coins->coins_names[1]]['FEEBEE'];
+   $FEEBEE_3=$my_coins->coins[$my_coins->coins_names[2]]['FEEBEE'];
+   $create_feebee_account = $my_coins->coins["create_feebee_account"];
+   
+   if($myusername && ($FEEBEE_1==$myusername || $FEEBEE_2==$myusername || $FEEBEE_3==$myusername) && !$create_feebee_account) {
+		$coo_coo="foo_foo";
+   } else {
+		$coo_coo="tootoo";
+   }
    if($coo_coo=="tootoo") {
    if($myusername) {
       if($mypassword) {
@@ -369,10 +378,21 @@ if($form_action=="register") {
                   <td align="right" nowrap><b>Sub-total</b></td>
                   <td align="right" nowrap><font id="buy-subtotal"><?php $bsubtotal = 0 * $Selling_Rate; echo satoshitize($bsubtotal); ?></font></td>
                   <td align="left" nowrap><?php echo $BTC; ?></td>
-               </tr><tr>
+               <?php
+			   $bfee=(($bsubtotal / 100) / 5);
+			   $bfee=satoshitize($bfee);
+			   if($my_coins->coins[$BTCS]["buy_fee"]==true)
+			   {
+			   echo'
+			   </tr><tr>
                   <td align="right" nowrap><b>Fee</b></td>
-                  <td align="right" nowrap><font id="buy-fee"><?php $bfee = (($bsubtotal / 100) / 5); echo satoshitize($bfee); ?></font></td>
-                  <td align="left" nowrap><?php echo $BTC; ?></td>
+                  <td align="right" nowrap><font id="buy-fee">'.$bfee.'</font></td>
+                  <td align="left" nowrap>'.$BTC.'</td>
+			   ';
+			   } else {
+					echo'<input id="buy-fee" type="hidden" value="0">';
+			   }
+			   ?>
                </tr><tr>
                   <td colspan="3" style="height: 10px;"></td>
                </tr><tr>
@@ -406,12 +426,23 @@ if($form_action=="register") {
                   <td align="left" nowrap><?php echo $BTC; ?></td>
                </tr><tr>
                   <td align="right" nowrap><b>Sub-total</b></td>
-                  <td align="right" nowrap><font id="sell-subtotal"><?php $bsubtotal = 0 * $Buying_Rate; echo satoshitize($bsubtotal); ?></font></td>
+                  <td align="right" nowrap><font id="sell-subtotal"><?php $ssubtotal = 0 * $Buying_Rate; echo satoshitize($ssubtotal); ?></font></td>
                   <td align="left" nowrap><?php echo $BTC; ?></td>
-               </tr><tr>
+               <?php
+			   $sfee=(($ssubtotal / 100) / 5);
+			   $sfee=satoshitize($sfee);
+			   if($my_coins->coins[$BTCS]["sell_fee"]==true)
+			   {
+			   echo'
+			   </tr><tr>
                   <td align="right" nowrap><b>Fee</b></td>
-                  <td align="right" nowrap><font id="sell-fee"><?php $sfee = (($ssubtotal / 100) / 5); echo satoshitize($sfee); ?></font></td>
-                  <td align="left" nowrap><?php echo $BTC; ?></td>
+                  <td align="right" nowrap><font id="sell-fee">'.$sfee.'</font></td>
+                  <td align="left" nowrap>'.$BTC.'</td>
+			   ';
+			   } else {
+					echo'<input id="sell-fee" type="hidden" value="0">';
+			   }
+			   ?>
                </tr><tr>
                   <td colspan="3" style="height: 10px;"></td>
                </tr><tr>

@@ -41,7 +41,7 @@ if($trade_action_2=="tradebuy"){
 	if($trade_amount) {
 		if($trade_rate) {
 			$trade_error=false;
-			if($trader!=$user_session)
+			if($trader==$user_session)
 			{
 				$Trade_Message = 'Could, Trade matching not done.';
 				$trade_error=true;
@@ -342,6 +342,10 @@ while($Row = mysql_fetch_assoc($Query)) {
 	$i++;
 }
 $count_buy_orderbook = $i;
+if($Trade_Message)
+{
+	header("Refresh: 5;");
+}
 ?>
 <html>
 <head>

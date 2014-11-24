@@ -39,7 +39,7 @@ if($cancel_order) {
             $result = plusfunds($user_session,$BTCRYX,$CURR_Selling_Amount);
             if($result) {
                $Trade_Message = 'The order has been canceled.';
-               header("Location: home.php");
+               //header("Location: home.php");
             } else {
                $Trade_Message = 'System error.';
             }
@@ -69,7 +69,7 @@ if($cancel_order) {
                $result = plusfunds($user_session,$BTC,$CURR_Selling_Amount);
                if($result) {
                   $Trade_Message = 'The order has been canceled.';
-                  header("Location: home.php");
+                  //header("Location: home.php");
                } else {
                   $Trade_Message = 'System error.';
                }
@@ -133,7 +133,7 @@ if($PST_Order_Action=="buy"){
                      $result = minusfunds($user_session,$BTC,$PST_Order_Sub_Total);
                      if($result=="success") {
                         $Trade_Message = "Buy order has been made, but is waiting a Seller.";
-                        header("Location: home.php");
+                        //header("Location: home.php");
                      } else {
                         $Trade_Message = "System error.";
                      }
@@ -192,7 +192,7 @@ if($PST_Order_Action=="sell") {
                      
 					 if($result=="success") {
                         $Trade_Message = "Sell order has been made, but is waiting a Buyer.";
-                        header("Location: home.php");
+                        //header("Location: home.php");
                      } else {
                         $Trade_Message = "System error.";
                      }
@@ -213,6 +213,10 @@ if($PST_Order_Action=="sell") {
    } else {
       $Trade_Message = "You must enter an amount to sell!";
    }
+}
+if($Trade_Message)
+{
+	header("Refresh: 5;");
 }
 ?>
 <html>
@@ -361,10 +365,21 @@ if($PST_Order_Action=="sell") {
                   <td align="right" nowrap><b>Sub-total</b></td>
                   <td align="right" nowrap><font id="buy-subtotal"><?php $bsubtotal = $Bitcoin_Can_Buy * $Selling_Rate; echo satoshitize($bsubtotal); ?></font></td>
                   <td align="left" nowrap><?php echo $BTC; ?></td>
-               </tr><tr>
+              <?php
+			   $bfee=(($bsubtotal / 100) / 5);
+			   $bfee=satoshitize($bfee);
+			   if($my_coins->coins[$BTCS]["buy_fee"]==true)
+			   {
+			   echo'
+			   </tr><tr>
                   <td align="right" nowrap><b>Fee</b></td>
-                  <td align="right" nowrap><font id="buy-fee"><?php $bfee = (($bsubtotal / 100) / 5); echo satoshitize($bfee); ?></font></td>
-                  <td align="left" nowrap><?php echo $BTC; ?></td>
+                  <td align="right" nowrap><font id="buy-fee">'.$bfee.'</font></td>
+                  <td align="left" nowrap>'.$BTC.'</td>
+			   ';
+			   } else {
+					echo'<input id="buy-fee" type="hidden" value="0">';
+			   }
+			   ?>
                </tr><tr>
                   <td colspan="3" style="height: 10px;"></td>
                </tr><tr>
@@ -400,12 +415,23 @@ if($PST_Order_Action=="sell") {
                   <td align="left" nowrap><?php echo $BTC; ?></td>
                </tr><tr>
                   <td align="right" nowrap><b>Sub-total</b></td>
-                  <td align="right" nowrap><font id="sell-subtotal"><?php $bsubtotal = $Coin_B_Balance * $Buying_Rate; echo satoshitize($bsubtotal); ?></font></td>
+                  <td align="right" nowrap><font id="sell-subtotal"><?php $ssubtotal = $Coin_B_Balance * $Buying_Rate; echo satoshitize($ssubtotal); ?></font></td>
                   <td align="left" nowrap><?php echo $BTC; ?></td>
-               </tr><tr>
+              <?php
+			   $sfee=(($ssubtotal / 100) / 5);
+			   $sfee=satoshitize($sfee);
+			   if($my_coins->coins[$BTCS]["sell_fee"]==true)
+			   {
+			   echo'
+			   </tr><tr>
                   <td align="right" nowrap><b>Fee</b></td>
-                  <td align="right" nowrap><font id="sell-fee"><?php $sfee = (($bsubtotal / 100) / 5); echo satoshitize($sfee); ?></font></td>
-                  <td align="left" nowrap><?php echo $BTC; ?></td>
+                  <td align="right" nowrap><font id="sell-fee">'.$sfee.'</font></td>
+                  <td align="left" nowrap>'.$BTC.'</td>
+			   ';
+			   } else {
+					echo'<input id="sell-fee" type="hidden" value="0">';
+			   }
+			   ?>
                </tr><tr>
                   <td colspan="3" style="height: 10px;"></td>
                </tr><tr>

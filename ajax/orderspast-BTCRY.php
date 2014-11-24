@@ -1,6 +1,5 @@
 <?php
 error_reporting(0);
-require_once('coins.php');
 $sql = "SELECT * FROM ordersfilled WHERE want='".$my_coins->coins_names_prefix[1]."' and processed='1' ORDER BY rate DESC";
 $result = mysql_query($sql);
 $count = mysql_num_rows($result);

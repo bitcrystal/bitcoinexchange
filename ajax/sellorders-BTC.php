@@ -1,6 +1,5 @@
 <?php
 error_reporting(0);
-require_once('coins.php');
 echo '<div align="center" class="buy-sells">';
 $sql = "SELECT * FROM sell_orderbook WHERE want='BTC' and processed='1'";
 $result = mysql_query($sql);

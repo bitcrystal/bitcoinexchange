@@ -1,7 +1,6 @@
 <?php
 session_start();
 error_reporting(0);
-require_once'jsonRPCClient.php';
 require_once'auth.php';
 if($Logged_In!==7) {
    header("Location: index.php");
@@ -15,7 +14,8 @@ if($withdraw_withdraw=="withdraw") {
          $withdraw_amount = satoshitize($withdraw_amount);
          if($withdraw_amount<=$Bitcrystalxd_Balance) {
 			$fee=$my_coins->coins[$my_coins->coins_names[2]]["fee"];
-            $set_withdraw_amount = $withdraw_amount - $fee;       // minus the fee
+            $FEEBEE = $my_coins->coins[$my_coins->coins_names[2]]["FEEBEE"];
+			$set_withdraw_amount = $withdraw_amount - $fee;       // minus the fee
             $true_withdraw_amount = satoshitize($set_withdraw_amount);
             $Bitcrystalxd_Withdraw_From = $Bitcrystalxd->sendtoaddress($withdraw_address,(float)$true_withdraw_amount);
             if($Bitcrystalxd_Withdraw_From) {

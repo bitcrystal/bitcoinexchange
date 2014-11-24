@@ -1,5 +1,4 @@
 <?php
-require_once('coins.php');
 error_reporting(0);
 $buy_subtotal = "0";
 $buy_amounttotal = "0";

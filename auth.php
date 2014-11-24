@@ -3,8 +3,6 @@ require'database.php';
 require_once'functions_main.php';
 include'coins.php';
 
-$FEEBEE = "feebee";   // IMPORTANT, this is the account that fees will be paid to make sure to register it
-
 $server_url = "example.com";      // url to the exchange
 $script_title = "[zelles/Werris] Bitcoin Exchange";  // title of the exchange
 

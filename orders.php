@@ -1,7 +1,6 @@
 <?php
 session_start();
 error_reporting(0);
-require_once'jsonRPCClient.php';
 require_once'auth.php';
 if($Logged_In!==7) {
    header("Location: index.php");
